@@ -108,6 +108,199 @@ body {
   color: var(--cyan);
   background: var(--cyan-dim);
 }
+
+/* ══════════════════════════════════════════════════════════
+   HELP CHAT MODAL
+══════════════════════════════════════════════════════════ */
+.help-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,29,35,0.95);
+  backdrop-filter: blur(10px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  padding: 20px;
+}
+.help-modal.show { opacity: 1; pointer-events: all; }
+.help-chat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 480px;
+  box-shadow: var(--shadow-md);
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.help-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.help-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.help-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.help-header-text h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.help-header-text p {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.btn-close-help {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-close-help:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+.help-body {
+  padding: 24px;
+}
+.help-intro {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  margin-bottom: 20px;
+}
+.help-field {
+  margin-bottom: 14px;
+}
+.help-field label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 6px;
+}
+.help-field input,
+.help-field textarea {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 300;
+  padding: 11px 14px;
+  width: 100%;
+  outline: none;
+  transition: all var(--transition);
+  resize: none;
+}
+.help-field input:focus,
+.help-field textarea:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-dim);
+}
+.help-field input::placeholder,
+.help-field textarea::placeholder {
+  color: var(--text-dim);
+}
+.help-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.btn-send-help {
+  flex: 1;
+  background: var(--cyan);
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-send-help:hover {
+  background: var(--cyan-hover);
+  transform: translateY(-1px);
+}
+.btn-send-help:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-cancel-help {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-cancel-help:hover {
+  border-color: var(--border-light);
+  color: var(--text);
+}
+.help-success {
+  display: none;
+  text-align: center;
+  padding: 40px 24px;
+}
+.help-success.show { display: block; }
+.help-success-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--green-dim);
+  border: 1px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.help-success h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.help-success p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
 .badge {
   font-size: 0.65rem;
   font-weight: 500;
@@ -669,6 +862,61 @@ body {
   </div>
 </div>
 
+<!-- HELP CHAT MODAL -->
+<div class="help-modal" id="helpModal">
+  <div class="help-chat">
+    <div class="help-header">
+      <div class="help-header-left">
+        <div class="help-avatar">💬</div>
+        <div class="help-header-text">
+          <h3 id="helpAgentName">Need help?</h3>
+          <p id="helpAgentRole">We're here to assist</p>
+        </div>
+      </div>
+      <button class="btn-close-help" onclick="closeHelpChat()">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M5 5l10 10M15 5l-10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="help-body" id="helpForm">
+      <p class="help-intro">Have a question about submitting a task? Send us a message and <span id="helpAssignedName">we'll</span> get back to you shortly.</p>
+      
+      <div class="help-field">
+        <label>Your name</label>
+        <input type="text" id="helpName" placeholder="Jane Smith" />
+      </div>
+      
+      <div class="help-field">
+        <label>Your email</label>
+        <input type="email" id="helpEmail" placeholder="you@company.com" />
+      </div>
+      
+      <div class="help-field">
+        <label>Your question</label>
+        <textarea id="helpMessage" rows="4" placeholder="How can we help you?"></textarea>
+      </div>
+      
+      <div class="help-actions">
+        <button class="btn-cancel-help" onclick="closeHelpChat()">Cancel</button>
+        <button class="btn-send-help" id="btnSendHelp" onclick="sendHelpMessage()">Send message</button>
+      </div>
+    </div>
+    
+    <div class="help-success" id="helpSuccess">
+      <div class="help-success-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2D7A4F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="5,15 11,21 23,9"/>
+        </svg>
+      </div>
+      <h3>Message sent!</h3>
+      <p id="helpSuccessMsg">Your message has been sent to our team. We'll get back to you shortly.</p>
+      <button class="btn-send-help" onclick="closeHelpChat()" style="margin-top: 20px;">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const FORMSPREE_ID = 'YOUR_FORM_ID';
 
@@ -776,22 +1024,103 @@ let preClient = {};
   }
 })();
 
-// Function to open help email to the assigned team member
+/* ═══════════════════════════════════════════════
+   HELP CHAT FUNCTIONS
+═══════════════════════════════════════════════ */
 function openHelpEmail() {
-  let recipientEmail = 'support@algorithm.agency'; // Default fallback
+  const modal = document.getElementById('helpModal');
+  modal.classList.add('show');
+  
+  // Pre-fill with client info if available
+  if (prefilled && preClient.name) {
+    document.getElementById('helpName').value = preClient.name;
+    document.getElementById('helpEmail').value = preClient.email || '';
+    
+    // Get assigned team member
+    const assignedEmail = getAssignedEmail(preClient.company);
+    const assignedName = assignedEmail.split('@')[0].charAt(0).toUpperCase() + assignedEmail.split('@')[0].slice(1);
+    
+    document.getElementById('helpAgentName').textContent = `Chat with ${assignedName}`;
+    document.getElementById('helpAgentRole').textContent = 'Your account manager';
+    document.getElementById('helpAssignedName').textContent = `${assignedName} will`;
+  }
+}
+
+function closeHelpChat() {
+  const modal = document.getElementById('helpModal');
+  modal.classList.remove('show');
+  
+  // Reset form after a delay
+  setTimeout(() => {
+    document.getElementById('helpForm').style.display = 'block';
+    document.getElementById('helpSuccess').classList.remove('show');
+    document.getElementById('helpName').value = '';
+    document.getElementById('helpEmail').value = '';
+    document.getElementById('helpMessage').value = '';
+  }, 300);
+}
+
+async function sendHelpMessage() {
+  const name = document.getElementById('helpName').value.trim();
+  const email = document.getElementById('helpEmail').value.trim();
+  const message = document.getElementById('helpMessage').value.trim();
+  
+  if (!name || !email || !message) {
+    alert('Please fill in all fields');
+    return;
+  }
+  
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address');
+    return;
+  }
+  
+  const btn = document.getElementById('btnSendHelp');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  
+  // Determine recipient
+  let recipientEmail = 'support@algorithm.agency'; // Default
   let recipientName = 'the team';
   
-  // If we have a pre-filled client (from URL params), route to their assigned team member
   if (prefilled && preClient.company) {
     recipientEmail = getAssignedEmail(preClient.company);
     recipientName = recipientEmail.split('@')[0].charAt(0).toUpperCase() + recipientEmail.split('@')[0].slice(1);
   }
   
-  const clientName = preClient.name || 'there';
-  const subject = encodeURIComponent(`Question about the briefing form`);
-  const body = encodeURIComponent(`Hi ${recipientName},\n\nI have a question about submitting a task:\n\n[Your question here]\n\nThanks,\n${clientName}`);
+  // Send via Formspree
+  const payload = {
+    _subject: `Help Request from ${name}`,
+    _replyto: email,
+    _cc: recipientEmail,
+    name: name,
+    email: email,
+    message: message,
+    type: 'help_request',
+    assigned_to: recipientName,
+  };
   
-  window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    
+    if (res.ok) {
+      // Show success message
+      document.getElementById('helpForm').style.display = 'none';
+      document.getElementById('helpSuccess').classList.add('show');
+      document.getElementById('helpSuccessMsg').textContent = 
+        `Your message has been sent to ${recipientName}. We'll get back to you shortly.`;
+    } else {
+      throw new Error('Failed to send message');
+    }
+  } catch (err) {
+    alert('Failed to send message. Please try again or email us directly.');
+    btn.disabled = false;
+    btn.textContent = 'Send message';
+  }
 }
 
 let taskCount = 0;
