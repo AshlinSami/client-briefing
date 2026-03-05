@@ -359,6 +359,80 @@ body::before {
 }
 .micro-err.show { display: block; }
 
+/* File upload section */
+.file-upload-wrap {
+  margin-top: 13px;
+  padding: 14px;
+  background: var(--surface2);
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.file-upload-wrap:hover {
+  border-color: var(--gold);
+  background: var(--gold-bg);
+}
+.file-upload-label {
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--ink2);
+  margin-bottom: 6px;
+  display: block;
+}
+.file-upload-label .opt {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink3);
+  font-size: .7rem;
+}
+.file-input-custom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.file-input-hidden {
+  display: none;
+}
+.file-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .78rem;
+  font-weight: 400;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.file-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.file-name-display {
+  font-size: .78rem;
+  color: var(--ink3);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.file-name-display.has-file {
+  color: var(--ink);
+  font-weight: 400;
+}
+.file-hint {
+  font-size: .7rem;
+  color: var(--ink3);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
 /* Divider inside card */
 .card-divider {
   height: 1px;
@@ -562,19 +636,19 @@ body::before {
       </div>
       <div class="field" id="f-company">
         <label>Your company <span style="color:var(--gold)">*</span></label>
-        <input type="text" id="cCompany" placeholder="Subaru South Africa" oninput="clearErr('f-company','cCompany')"/>
+        <input type="text" id="cCompany" placeholder="Your Company Name" oninput="clearErr('f-company','cCompany')"/>
         <span class="field-error" id="err-company">⚠ Please enter your company</span>
       </div>
     </div>
     <div class="row2">
       <div class="field" id="f-email">
         <label>Email address <span style="color:var(--gold)">*</span></label>
-        <input type="email" id="cEmail" placeholder="jane@subaru.co.za" autocomplete="email" oninput="clearErr('f-email','cEmail')"/>
+        <input type="email" id="cEmail" placeholder="you@company.com" autocomplete="email" oninput="clearErr('f-email','cEmail')"/>
         <span class="field-error" id="err-email">⚠ Please enter a valid email</span>
       </div>
       <div class="field">
         <label>Website <span style="font-weight:300;font-style:italic;color:var(--ink3);font-size:.7rem">optional</span></label>
-        <input type="url" id="cSite" placeholder="https://subaru.co.za"/>
+        <input type="url" id="cSite" placeholder="https://yoursite.com"/>
       </div>
     </div>
   </div>
@@ -643,7 +717,7 @@ const UMAP = {
 
 /* ═══════════════════════════════════════════════
    URL PARAMETER PRE-FILL
-   Usage: index.html?name=Jane&company=Subaru&email=jane@subaru.co.za&site=subaru.co.za
+   Usage: index.html?name=Jane&company=YourCompany&email=you@company.com&site=yoursite.com
 ═══════════════════════════════════════════════ */
 let prefilled = false;
 let preClient = {};
@@ -739,6 +813,29 @@ function addTask() {
         ></textarea>
       </div>
 
+      <div class="file-upload-wrap" id="file-wrap-${id}">
+        <label class="file-upload-label">
+          Attach files
+          <span class="opt">images, PDFs, documents</span>
+        </label>
+        <div class="file-input-custom" onclick="document.getElementById('file-${id}').click()">
+          <div class="file-btn">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            Choose files
+          </div>
+          <span class="file-name-display" id="file-display-${id}">No files selected</span>
+        </div>
+        <input
+          type="file"
+          id="file-${id}"
+          class="file-input-hidden q-files"
+          multiple
+          accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip"
+          onchange="updateFileDisplay(${id})"
+        />
+        <div class="file-hint">Images, PDFs, documents — Files will be listed in the email (file upload requires Formspree paid plan)</div>
+      </div>
+
       <div class="card-divider"></div>
 
       <div>
@@ -804,6 +901,24 @@ function setUrg(id, urg, btn) {
   if (uerr) uerr.classList.remove('show');
 }
 
+function updateFileDisplay(id) {
+  const input = document.getElementById(`file-${id}`);
+  const display = document.getElementById(`file-display-${id}`);
+  if (!input || !display) return;
+
+  if (input.files && input.files.length > 0) {
+    if (input.files.length === 1) {
+      display.textContent = input.files[0].name;
+    } else {
+      display.textContent = `${input.files.length} files selected`;
+    }
+    display.classList.add('has-file');
+  } else {
+    display.textContent = 'No files selected';
+    display.classList.remove('has-file');
+  }
+}
+
 /* ═══════════════════════════════════════════════
    INLINE ERROR HELPERS
 ═══════════════════════════════════════════════ */
@@ -830,14 +945,22 @@ function showMicroErr(mqId, inputId, errId) {
    COLLECT
 ═══════════════════════════════════════════════ */
 function collectTasks() {
-  return Array.from(document.querySelectorAll('.task-card')).map((card, i) => ({
-    num:   i + 1,
-    what:  card.querySelector('.q-what')?.value?.trim()  || '',
-    where: card.querySelector('.q-where')?.value?.trim() || '',
-    more:  card.querySelector('.q-more')?.value?.trim()  || '',
-    urg:   card.dataset.urg || '',
-    id:    card.id.replace('tc-', ''),
-  }));
+  return Array.from(document.querySelectorAll('.task-card')).map((card, i) => {
+    const fileInput = card.querySelector('.q-files');
+    const fileCount = fileInput && fileInput.files ? fileInput.files.length : 0;
+    const fileNames = fileInput && fileInput.files ? Array.from(fileInput.files).map(f => f.name) : [];
+    
+    return {
+      num:       i + 1,
+      what:      card.querySelector('.q-what')?.value?.trim()  || '',
+      where:     card.querySelector('.q-where')?.value?.trim() || '',
+      more:      card.querySelector('.q-more')?.value?.trim()  || '',
+      urg:       card.dataset.urg || '',
+      id:        card.id.replace('tc-', ''),
+      fileCount: fileCount,
+      fileNames: fileNames,
+    };
+  });
 }
 
 /* ═══════════════════════════════════════════════
@@ -869,6 +992,10 @@ function buildAgencyEmail(client, tasks) {
     if (t.where) s += `  Where:     ${t.where}\n`;
     s += `  Priority:  ${u.tier}\n`;
     s += `  ETA:       ${u.eta}\n`;
+    if (t.fileCount > 0) {
+      s += `  Files:     ${t.fileCount} attached\n`;
+      t.fileNames.forEach(name => s += `             • ${name}\n`);
+    }
     if (t.more) s += `\n  Notes:\n  ${t.more.replace(/\n/g, '\n  ')}\n`;
     s += '\n';
   });
