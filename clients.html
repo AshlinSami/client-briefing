@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Link Generator — Algorithm Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0E0C;--surface:#191714;--surface2:#211F1B;--border:#2E2B26;--border2:#3D3933;
+  --ink:#F0EDE8;--ink2:#9A9590;--ink3:#5A5650;
+  --gold:#C89820;--gold-dim:rgba(200,152,32,.12);--gold-bdr:rgba(200,152,32,.3);
+  --green:#3A9B65;--green-bg:rgba(58,155,101,.1);--green-bdr:rgba(58,155,101,.3);
+  --red:#C05050;
+  --radius:12px;--radius-sm:8px;
+  --shadow:0 2px 12px rgba(0,0,0,.3);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* HEADER */
+.header{border-bottom:1px solid var(--border);padding:18px 0;position:sticky;top:0;background:rgba(15,14,12,.92);backdrop-filter:blur(12px);z-index:10}
+.header-inner{max-width:860px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;letter-spacing:-.01em}
+.logo span{color:var(--gold)}
+.header-right{display:flex;align-items:center;gap:12px}
+.internal-badge{font-size:.62rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;background:var(--gold-dim);border:1px solid var(--gold-bdr);color:var(--gold);padding:4px 10px;border-radius:20px}
+
+/* LAYOUT */
+.page{max-width:860px;margin:0 auto;padding:40px 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.page-full{max-width:860px;margin:0 auto;padding:0 24px 0}
+
+/* HERO */
+.hero{padding:40px 24px 32px;max-width:860px;margin:0 auto}
+.hero h1{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:400;letter-spacing:-.03em;margin-bottom:8px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.88rem;color:var(--ink2);line-height:1.7}
+
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+.card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:400;margin-bottom:4px}
+.card-sub{font-size:.76rem;color:var(--ink2);margin-bottom:20px;line-height:1.5}
+
+/* FIELDS */
+.field{margin-bottom:14px}
+.field:last-of-type{margin-bottom:0}
+.field label{font-size:.72rem;font-weight:500;color:var(--ink2);display:block;margin-bottom:5px;letter-spacing:.02em}
+.field label .req{color:var(--gold)}
+.field input{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--ink);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:300;padding:10px 13px;outline:none;width:100%;transition:border-color .18s,box-shadow .18s}
+.field input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,152,32,.1)}
+.field input::placeholder{color:var(--ink3)}
+
+.btn-generate{width:100%;background:var(--gold);color:#0F0E0C;border:none;border-radius:var(--radius-sm);padding:12px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;margin-top:16px;transition:all .18s;letter-spacing:.02em}
+.btn-generate:hover{background:#D4A830;transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,152,32,.25)}
+
+/* OUTPUT */
+.output-section{display:none}
+.output-section.show{display:block}
+.output-label{font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.output-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.url-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-family:'Courier New',monospace;font-size:.78rem;color:var(--gold);word-break:break-all;line-height:1.6;margin-bottom:10px;cursor:text;user-select:all}
+.btn-row{display:flex;gap:8px}
+.btn-copy,.btn-email,.btn-preview{border:1px solid var(--border);background:var(--surface2);color:var(--ink2);border-radius:var(--radius-sm);padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:.76rem;cursor:pointer;transition:all .18s;display:flex;align-items:center;gap:6px;flex:1;justify-content:center}
+.btn-copy:hover{border-color:var(--gold);color:var(--gold);background:var(--gold-dim)}
+.btn-email:hover{border-color:var(--green);color:var(--green);background:var(--green-bg)}
+.btn-preview:hover{border-color:var(--border2);color:var(--ink);background:var(--surface)}
+.copied-flash{font-size:.72rem;color:var(--green);margin-top:6px;display:none;align-items:center;gap:4px}
+.copied-flash.show{display:flex}
+
+/* SAVED CLIENTS */
+.clients-section{margin-top:32px}
+.clients-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.clients-header h2{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:400}
+.btn-clear-all{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:.74rem;color:var(--ink3);cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .18s}
+.btn-clear-all:hover{color:var(--red);background:rgba(192,80,80,.08)}
+.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.client-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;position:relative;transition:border-color .18s}
+.client-card:hover{border-color:var(--border2)}
+.cc-name{font-size:.88rem;font-weight:500;color:var(--ink);margin-bottom:2px}
+.cc-company{font-size:.75rem;color:var(--ink2);margin-bottom:8px}
+.cc-actions{display:flex;gap:6px}
+.cc-btn{border:1px solid var(--border);background:transparent;border-radius:6px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:.7rem;color:var(--ink3);cursor:pointer;transition:all .18s}
+.cc-btn:hover{border-color:var(--gold);color:var(--gold)}
+.cc-btn.del:hover{border-color:var(--red);color:var(--red)}
+.cc-btn.copy-btn.copied{border-color:var(--green);color:var(--green)}
+.no-clients{font-size:.83rem;color:var(--ink3);text-align:center;padding:24px;background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius-sm)}
+
+/* EMAIL PREVIEW */
+.email-preview{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);margin-top:12px;overflow:hidden}
+.ep-head{background:var(--surface);padding:12px 16px;border-bottom:1px solid var(--border)}
+.ep-field{display:flex;gap:8px;font-size:.73rem;margin-bottom:4px}
+.ep-field:last-child{margin-bottom:0}
+.ep-key{color:var(--ink3);width:52px;flex-shrink:0}
+.ep-val{color:var(--ink)}
+.ep-val.subj{color:var(--gold);font-weight:500}
+.ep-body{padding:14px 16px;font-size:.78rem;line-height:1.85;color:var(--ink2);white-space:pre-wrap}
+.ep-body .hi{color:var(--ink)}
+.ep-body .link{color:var(--gold)}
+
+/* INFO BOX */
+.info-box{background:var(--gold-dim);border:1px solid var(--gold-bdr);border-radius:var(--radius-sm);padding:14px 16px;font-size:.8rem;color:var(--ink2);line-height:1.6;margin-bottom:16px}
+.info-box strong{color:var(--gold);display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+
+@media(max-width:640px){.page{grid-template-columns:1fr}.clients-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">Algorithm<span>.</span></div>
+    <div class="header-right">
+      <span class="internal-badge">⚙ Internal Tool</span>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <h1>Client link <em>generator</em></h1>
+  <p>Create a personalised briefing form URL for each client. They click the link and the form already knows who they are — no re-entering details every time.</p>
+</div>
+
+<div class="page-full">
+  <div class="info-box">
+    <strong>How it works</strong>
+    Enter a client's details below and generate their unique link. Send that link once — save it in your email signature for that client, pin it in a shared email thread, or send it any time they need to submit a task. The form pre-fills their name, company, and email automatically.
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- LEFT: GENERATOR -->
+  <div>
+    <div class="card">
+      <div class="card-title">Generate a client link</div>
+      <div class="card-sub">Fill in their details — only name, company and email are needed.</div>
+
+      <div class="field">
+        <label>Contact name <span class="req">*</span></label>
+        <input type="text" id="gName" placeholder="Jane Smith" oninput="livePreview()"/>
+      </div>
+      <div class="field">
+        <label>Company <span class="req">*</span></label>
+        <input type="text" id="gCompany" placeholder="Subaru South Africa" oninput="livePreview()"/>
+      </div>
+      <div class="field">
+        <label>Email address <span class="req">*</span></label>
+        <input type="email" id="gEmail" placeholder="jane@subaru.co.za" oninput="livePreview()"/>
+      </div>
+      <div class="field">
+        <label>Website <span style="font-weight:300;color:var(--ink3)">optional</span></label>
+        <input type="text" id="gSite" placeholder="subaru.co.za" oninput="livePreview()"/>
+      </div>
+
+      <button class="btn-generate" onclick="generateLink()">Generate link →</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-section" id="outputSection" style="margin-top:16px">
+      <div class="output-label">Generated link</div>
+      <div class="url-box" id="urlBox">—</div>
+      <div class="btn-row">
+        <button class="btn-copy" onclick="copyLink()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4.5" y="4.5" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M3 8.5H2A1.5 1.5 0 01.5 7V2A1.5 1.5 0 012 .5h5A1.5 1.5 0 018.5 2v1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Copy link
+        </button>
+        <button class="btn-email" onclick="openEmailDraft()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x=".5" y="2.5" width="12" height="9" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M.5 4l6 4 6-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Draft email
+        </button>
+        <button class="btn-preview" onclick="previewForm()">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 4v3l1.5 1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Preview
+        </button>
+      </div>
+      <div class="copied-flash" id="copiedFlash">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="2,6 5,9 10,3" stroke="#3A9B65" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Copied to clipboard
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: EMAIL PREVIEW -->
+  <div>
+    <div class="card">
+      <div class="card-title">Email to send your client</div>
+      <div class="card-sub">This is the email you send once — save the link in your signature after that.</div>
+
+      <div class="email-preview" id="emailPreview">
+        <div class="ep-head">
+          <div class="ep-field"><span class="ep-key">To:</span><span class="ep-val" id="ep-to">—</span></div>
+          <div class="ep-field"><span class="ep-key">Subject:</span><span class="ep-val subj" id="ep-subj">—</span></div>
+        </div>
+        <div class="ep-body" id="ep-body">Fill in the client details to preview the email.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SAVED CLIENTS -->
+<div class="page-full">
+  <div class="clients-section">
+    <div class="clients-header">
+      <h2>Saved clients</h2>
+      <button class="btn-clear-all" onclick="clearAll()">Clear all</button>
+    </div>
+    <div class="clients-grid" id="clientsGrid"></div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG — update this to your live GitHub Pages URL ──────────────────────
+const BASE_URL = window.location.origin + window.location.pathname.replace('clients.html','');
+
+let currentLink = '';
+let currentClient = null;
+
+function buildLink(name, company, email, site) {
+  const p = new URLSearchParams();
+  if (name)    p.set('name',    name);
+  if (company) p.set('company', company);
+  if (email)   p.set('email',   email);
+  if (site)    p.set('site',    site.replace(/^https?:\/\//,''));
+  return `${BASE_URL}index.html?${p.toString()}`;
+}
+
+function livePreview() {
+  const name    = document.getElementById('gName').value.trim();
+  const company = document.getElementById('gCompany').value.trim();
+  const email   = document.getElementById('gEmail').value.trim();
+  const site    = document.getElementById('gSite').value.trim();
+
+  if (!name && !company && !email) {
+    document.getElementById('ep-to').textContent   = '—';
+    document.getElementById('ep-subj').textContent = '—';
+    document.getElementById('ep-body').textContent = 'Fill in the client details to preview the email.';
+    return;
+  }
+
+  const firstName = name.split(' ')[0] || 'there';
+  const link = (name || company || email) ? buildLink(name, company, email, site) : '';
+
+  document.getElementById('ep-to').textContent   = email || '—';
+  document.getElementById('ep-subj').textContent = company
+    ? `Submit dev tasks to us — ${company}`
+    : 'Submit your dev tasks — Algorithm Agency';
+
+  document.getElementById('ep-body').innerHTML =
+    `<span class="hi">Hi ${firstName},</span>
+
+We've set up a direct link for you to submit dev tasks, support requests, design briefs, and any other work you need from us.
+
+<span class="link">👉 ${link || '[link will appear here]'}</span>
+
+Just click the link, describe what you need, and select how urgent it is. You'll get a confirmation with expected turnaround times straight away.
+
+<strong>Turnaround guide:</strong>
+• Urgent — same day or within 24 hours
+• This week — 2–5 business days
+• No rush — 1–3 weeks
+
+Bookmark the link — you can use it any time you have tasks to send through.
+
+Talk soon,
+Ashlin
+Algorithm Agency`;
+}
+
+function generateLink() {
+  const name    = document.getElementById('gName').value.trim();
+  const company = document.getElementById('gCompany').value.trim();
+  const email   = document.getElementById('gEmail').value.trim();
+  const site    = document.getElementById('gSite').value.trim();
+
+  if (!name)    { document.getElementById('gName').focus();    alert('Please enter the client name.');    return; }
+  if (!company) { document.getElementById('gCompany').focus(); alert('Please enter the company name.');   return; }
+  if (!email)   { document.getElementById('gEmail').focus();   alert('Please enter the email address.');  return; }
+
+  currentLink = buildLink(name, company, email, site);
+  currentClient = { name, company, email, site, link: currentLink, saved: Date.now() };
+
+  document.getElementById('urlBox').textContent = currentLink;
+  document.getElementById('outputSection').classList.add('show');
+
+  // Save to localStorage
+  saveClient(currentClient);
+  renderSavedClients();
+}
+
+function copyLink() {
+  if (!currentLink) return;
+  navigator.clipboard.writeText(currentLink).then(() => {
+    const f = document.getElementById('copiedFlash');
+    f.classList.add('show');
+    setTimeout(() => f.classList.remove('show'), 2500);
+  });
+}
+
+function openEmailDraft() {
+  const name    = document.getElementById('gName').value.trim();
+  const company = document.getElementById('gCompany').value.trim();
+  const email   = document.getElementById('gEmail').value.trim();
+  const firstName = name.split(' ')[0] || 'there';
+
+  const subject = encodeURIComponent(company
+    ? `Submit dev tasks to us — ${company}`
+    : 'Submit your dev tasks — Algorithm Agency');
+
+  const body = encodeURIComponent(
+`Hi ${firstName},
+
+We've set up a direct link for you to submit dev tasks, support requests, design briefs, and any other work you need from us.
+
+👉 ${currentLink}
+
+Just click the link, describe what you need, and select how urgent it is. You'll get a confirmation with expected turnaround times straight away.
+
+Turnaround guide:
+• Urgent — same day or within 24 hours
+• This week — 2–5 business days
+• No rush — 1–3 weeks
+
+Bookmark the link — you can use it any time you have tasks to send through.
+
+Talk soon,
+Ashlin
+Algorithm Agency`);
+
+  window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+}
+
+function previewForm() {
+  if (currentLink) window.open(currentLink, '_blank');
+}
+
+// ── SAVED CLIENTS ────────────────────────────────────────────────────────────
+function saveClient(client) {
+  const saved = getSaved();
+  // Update if exists, else add
+  const idx = saved.findIndex(c => c.email === client.email);
+  if (idx > -1) saved[idx] = client;
+  else saved.unshift(client);
+  localStorage.setItem('aa_clients', JSON.stringify(saved));
+}
+
+function getSaved() {
+  try { return JSON.parse(localStorage.getItem('aa_clients') || '[]'); }
+  catch(e) { return []; }
+}
+
+function clearAll() {
+  if (!confirm('Remove all saved clients?')) return;
+  localStorage.removeItem('aa_clients');
+  renderSavedClients();
+}
+
+function deleteClient(email) {
+  const saved = getSaved().filter(c => c.email !== email);
+  localStorage.setItem('aa_clients', JSON.stringify(saved));
+  renderSavedClients();
+}
+
+function copyClientLink(email, btnEl) {
+  const client = getSaved().find(c => c.email === email);
+  if (!client) return;
+  navigator.clipboard.writeText(client.link).then(() => {
+    btnEl.textContent = '✓ Copied';
+    btnEl.classList.add('copied');
+    setTimeout(() => {
+      btnEl.textContent = 'Copy link';
+      btnEl.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function loadClient(email) {
+  const client = getSaved().find(c => c.email === email);
+  if (!client) return;
+  document.getElementById('gName').value    = client.name;
+  document.getElementById('gCompany').value = client.company;
+  document.getElementById('gEmail').value   = client.email;
+  document.getElementById('gSite').value    = client.site || '';
+  livePreview();
+  currentLink   = client.link;
+  currentClient = client;
+  document.getElementById('urlBox').textContent = currentLink;
+  document.getElementById('outputSection').classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderSavedClients() {
+  const saved = getSaved();
+  const grid  = document.getElementById('clientsGrid');
+
+  if (!saved.length) {
+    grid.innerHTML = '<div class="no-clients">No clients saved yet. Generate a link above to get started.</div>';
+    return;
+  }
+
+  grid.innerHTML = saved.map(c => `
+    <div class="client-card">
+      <div class="cc-name">${c.name}</div>
+      <div class="cc-company">${c.company}</div>
+      <div class="cc-actions">
+        <button class="cc-btn copy-btn" onclick="copyClientLink('${c.email}', this)">Copy link</button>
+        <button class="cc-btn" onclick="loadClient('${c.email}')">Edit</button>
+        <button class="cc-btn del" onclick="deleteClient('${c.email}')">Remove</button>
+      </div>
+    </div>`).join('');
+}
+
+// Init
+livePreview();
+renderSavedClients();
+</script>
+
+</body>
+</html>

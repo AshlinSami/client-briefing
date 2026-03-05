@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Got it — Algorithm Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#FAFAF8;--surface:#fff;--border:#E8E4DE;--border2:#D4CEC5;
+  --ink:#1C1A17;--ink2:#6B6560;--ink3:#A8A39C;
+  --gold:#B8860B;--gold-bg:#FBF6EC;--gold-bdr:#EDD98A;
+  --red:#B83232;--red-bg:#FDF2F2;--red-bdr:#EDAAAA;
+  --green:#2D7A4F;--green-bg:#F0F9F4;--green-bdr:#A3D4B8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;-webkit-font-smoothing:antialiased;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E")}
+
+.card{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:36px 32px;max-width:500px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,.06),0 8px 28px rgba(0,0,0,.07);animation:up .5s ease both}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.check-wrap{width:60px;height:60px;border-radius:50%;background:var(--green-bg);border:1.5px solid var(--green-bdr);display:flex;align-items:center;justify-content:center;margin:0 auto 22px;animation:pop .5s cubic-bezier(.175,.885,.32,1.275) both}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+.check-wrap svg{stroke-dasharray:50;stroke-dashoffset:50;animation:draw .4s ease .4s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+h1{font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:400;letter-spacing:-.03em;text-align:center;margin-bottom:8px}
+h1 em{font-style:italic;color:var(--green)}
+.sub{text-align:center;font-size:.87rem;color:var(--ink2);line-height:1.7;margin-bottom:26px}
+
+.divider{border:none;border-top:1px solid var(--border);margin:0 0 22px}
+
+.section-label{font-size:.62rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Task summary rows */
+.task-row{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;border-radius:10px;margin-bottom:8px;border:1px solid var(--border)}
+.task-row:last-child{margin-bottom:0}
+.task-row.urgent {background:var(--red-bg);  border-color:var(--red-bdr)}
+.task-row.normal {background:var(--gold-bg); border-color:var(--gold-bdr)}
+.task-row.planned{background:var(--green-bg);border-color:var(--green-bdr)}
+.t-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.urgent  .t-dot{background:var(--red)}
+.normal  .t-dot{background:var(--gold)}
+.planned .t-dot{background:var(--green)}
+.t-content{}
+.t-what{font-size:.86rem;font-weight:400;color:var(--ink);margin-bottom:2px}
+.t-eta{font-size:.73rem;font-weight:500}
+.urgent  .t-eta{color:var(--red)}
+.normal  .t-eta{color:var(--gold)}
+.planned .t-eta{color:var(--green)}
+
+/* What happens next */
+.next-block{background:#F7F5F2;border:1px solid var(--border);border-radius:11px;padding:16px 18px;margin-bottom:22px}
+.next-item{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.next-item:last-child{margin-bottom:0}
+.next-num{width:20px;height:20px;border-radius:50%;background:var(--gold);color:#fff;font-size:.65rem;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.next-text{font-size:.81rem;color:var(--ink2);line-height:1.55}
+.next-text strong{color:var(--ink);font-weight:500}
+
+.btn-another{display:block;text-align:center;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:400;cursor:pointer;text-decoration:none;transition:background .18s;width:100%}
+.btn-another:hover{background:#2D2A26}
+
+.logo{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:600;color:var(--ink3);text-align:center;margin-top:20px;letter-spacing:-.01em}
+.logo span{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="check-wrap">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#2D7A4F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="5,15 11,21 23,9"/>
+    </svg>
+  </div>
+
+  <h1 id="heading">Request <em>received</em></h1>
+  <p class="sub" id="subtitle">Thanks — we've got it. A confirmation email is on its way. Here's a summary of what you submitted:</p>
+
+  <hr class="divider">
+
+  <div class="section-label">Your tasks</div>
+  <div id="taskList" style="margin-bottom:20px"></div>
+
+  <div class="next-block" id="nextBlock"></div>
+
+  <a href="index.html" class="btn-another">Submit another request</a>
+</div>
+
+<div class="logo">Algorithm<span>.</span></div>
+
+<script>
+const UMAP = {
+  urgent:  { eta: 'Same day or within 24 hours', ackLine: 'We\'ll be in touch within <strong>2 business hours</strong> to confirm.' },
+  normal:  { eta: '2–5 business days',           ackLine: 'We\'ll pick this up in our <strong>active sprint</strong> within 2–5 business days.' },
+  planned: { eta: '1–3 weeks',                   ackLine: 'We\'ll <strong>confirm a schedule</strong> and get back to you within a few days.' },
+};
+
+const data = (() => {
+  try { return JSON.parse(sessionStorage.getItem('__brief') || 'null'); }
+  catch(e) { return null; }
+})();
+
+if (data && data.tasks?.length) {
+  // Personalise heading
+  const firstName = (data.name || '').split(' ')[0];
+  if (firstName) {
+    document.getElementById('heading').innerHTML = `Got it, <em>${firstName}</em>`;
+    document.getElementById('subtitle').textContent =
+      `Thanks — a confirmation email is on its way to you. Here's what you submitted:`;
+  }
+
+  // Task rows
+  const ord = { urgent: 0, normal: 1, planned: 2 };
+  const sorted = [...data.tasks].sort((a,b) => (ord[a.urg]??1) - (ord[b.urg]??1));
+  const taskList = document.getElementById('taskList');
+
+  sorted.forEach(t => {
+    const u = UMAP[t.urg] || UMAP.normal;
+    const row = document.createElement('div');
+    row.className = `task-row ${t.urg || 'normal'}`;
+    row.innerHTML = `
+      <div class="t-dot"></div>
+      <div class="t-content">
+        <div class="t-what">${t.what}</div>
+        <div class="t-eta">⏱ ${u.eta}</div>
+      </div>`;
+    taskList.appendChild(row);
+  });
+
+  // Next steps — only show relevant urgency types
+  const types = [...new Set(sorted.map(t => t.urg || 'normal'))];
+  const nextBlock = document.getElementById('nextBlock');
+  let nextHTML = '';
+  types.forEach((type, i) => {
+    const u = UMAP[type] || UMAP.normal;
+    nextHTML += `
+      <div class="next-item">
+        <div class="next-num">${i+1}</div>
+        <div class="next-text">${u.ackLine}</div>
+      </div>`;
+  });
+  nextHTML += `
+    <div class="next-item">
+      <div class="next-num">${types.length+1}</div>
+      <div class="next-text">A <strong>confirmation email</strong> has been sent to you with this summary.</div>
+    </div>
+    <div class="next-item">
+      <div class="next-num">${types.length+2}</div>
+      <div class="next-text">Reply to that email any time if <strong>urgency changes</strong> or you have more to add.</div>
+    </div>`;
+  nextBlock.innerHTML = nextHTML;
+
+} else {
+  // Fallback — no session data
+  document.getElementById('taskList').innerHTML =
+    `<p style="font-size:.84rem;color:var(--ink2);padding:10px 0">Your request has been sent. Check your inbox for a confirmation.</p>`;
+  document.getElementById('nextBlock').innerHTML = `
+    <div class="next-item"><div class="next-num">1</div><div class="next-text">Our team reviews your brief and confirms priorities.</div></div>
+    <div class="next-item"><div class="next-num">2</div><div class="next-text">A <strong>confirmation email</strong> is on its way with your turnaround times.</div></div>
+    <div class="next-item"><div class="next-num">3</div><div class="next-text">Reply to that email any time if anything changes.</div></div>`;
+}
+
+sessionStorage.removeItem('__brief');
+</script>
+</body>
+</html>

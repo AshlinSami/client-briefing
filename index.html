@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Send us a task — Algorithm Agency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════ */
+:root {
+  --bg:         #FAFAF8;
+  --surface:    #FFFFFF;
+  --surface2:   #F5F4F1;
+  --border:     #E8E4DE;
+  --border2:    #D4CEC5;
+  --ink:        #1C1A17;
+  --ink2:       #6B6560;
+  --ink3:       #A8A39C;
+  --gold:       #B8860B;
+  --gold-light: #D4A017;
+  --gold-bg:    #FBF6EC;
+  --gold-bdr:   #EDD98A;
+  --red:        #B83232;
+  --red-bg:     #FDF2F2;
+  --red-bdr:    #EDAAAA;
+  --green:      #2D7A4F;
+  --green-bg:   #F0F9F4;
+  --green-bdr:  #A3D4B8;
+  --radius:     14px;
+  --radius-sm:  9px;
+  --shadow:     0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
+  --shadow-md:  0 2px 8px rgba(0,0,0,.07), 0 8px 28px rgba(0,0,0,.07);
+  --transition: .18s cubic-bezier(.4,0,.2,1);
+}
+
+/* ═══════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle grain texture overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════ */
+.wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════
+   HEADER
+═══════════════════════════════════════════════ */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 0 0;
+  margin-bottom: 44px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.logo-dot { color: var(--gold); }
+.top-badge {
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  border: 1px solid var(--border2);
+  padding: 5px 11px;
+  border-radius: 20px;
+  background: var(--surface);
+}
+
+/* ═══════════════════════════════════════════════
+   WELCOME BLOCK (personalised or default)
+═══════════════════════════════════════════════ */
+.welcome {
+  margin-bottom: 36px;
+  animation: fadeUp .5s ease both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.welcome-greeting {
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.welcome h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.9rem, 5vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  margin-bottom: 14px;
+}
+.welcome h1 em { font-style: italic; color: var(--gold); }
+.welcome p {
+  font-size: .92rem;
+  color: var(--ink2);
+  line-height: 1.75;
+  max-width: 460px;
+}
+
+/* ═══════════════════════════════════════════════
+   CLIENT DETAILS (shown when NOT pre-filled)
+═══════════════════════════════════════════════ */
+.details-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  animation: fadeUp .5s .1s ease both;
+}
+.card-eyebrow {
+  font-size: .63rem;
+  font-weight: 500;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row2 + .row2 { margin-top: 12px; }
+
+/* ═══════════════════════════════════════════════
+   FIELDS
+═══════════════════════════════════════════════ */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--ink2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.field label .hint {
+  font-weight: 300;
+  color: var(--ink3);
+  font-size: .7rem;
+}
+.field input, .field textarea {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 300;
+  padding: 10px 13px;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  outline: none;
+  width: 100%;
+}
+.field textarea { resize: none; line-height: 1.6; }
+.field input:focus, .field textarea:focus {
+  border-color: var(--gold);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(184,134,11,.1);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--ink3); }
+
+/* Inline error */
+.field-error {
+  font-size: .72rem;
+  color: var(--red);
+  font-weight: 400;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+.field-error.show { display: flex; }
+.field input.err, .field textarea.err {
+  border-color: var(--red);
+  background: var(--red-bg);
+}
+.field input.err:focus, .field textarea.err:focus {
+  box-shadow: 0 0 0 3px rgba(184,50,50,.1);
+}
+
+/* ═══════════════════════════════════════════════
+   TASK CARD
+═══════════════════════════════════════════════ */
+.tasks-section {
+  animation: fadeUp .5s .15s ease both;
+}
+.task-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+  animation: cardIn .3s ease both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(-10px) scale(.99); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Colour stripe top */
+.card-stripe {
+  height: 3px;
+  background: var(--border2);
+  transition: background .25s ease;
+}
+.task-card[data-urg="urgent"]  .card-stripe { background: var(--red); }
+.task-card[data-urg="normal"]  .card-stripe { background: var(--gold); }
+.task-card[data-urg="planned"] .card-stripe { background: var(--green); }
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px 11px;
+  border-bottom: 1px solid var(--border);
+}
+.card-head-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.task-label {
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+.urg-pill {
+  font-size: .63rem;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 12px;
+  display: none;
+  letter-spacing: .04em;
+}
+.task-card[data-urg="urgent"]  .urg-pill { display: inline-block; background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-bdr); }
+.task-card[data-urg="normal"]  .urg-pill { display: inline-block; background: var(--gold-bg);  color: var(--gold);  border: 1px solid var(--gold-bdr); }
+.task-card[data-urg="planned"] .urg-pill { display: inline-block; background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
+
+.btn-remove {
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .75rem;
+  color: var(--ink3);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.btn-remove:hover { background: var(--red-bg); color: var(--red); }
+
+.card-body { padding: 18px 18px 16px; }
+
+/* Micro questions */
+.micro-q { margin-bottom: 13px; }
+.micro-q:last-of-type { margin-bottom: 0; }
+.micro-q label {
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--ink2);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+.micro-q label .opt {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink3);
+  font-size: .7rem;
+}
+.micro-q input, .micro-q textarea {
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  font-weight: 300;
+  padding: 10px 13px;
+  width: 100%;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  resize: none;
+}
+.micro-q input:focus, .micro-q textarea:focus {
+  border-color: var(--gold);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(184,134,11,.1);
+}
+.micro-q input::placeholder, .micro-q textarea::placeholder { color: var(--ink3); }
+.micro-q input.err, .micro-q textarea.err {
+  border-color: var(--red);
+  background: var(--red-bg);
+}
+.micro-err {
+  font-size: .71rem;
+  color: var(--red);
+  margin-top: 3px;
+  display: none;
+}
+.micro-err.show { display: block; }
+
+/* Divider inside card */
+.card-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px -18px;
+}
+
+/* ═══════════════════════════════════════════════
+   URGENCY SELECTOR
+═══════════════════════════════════════════════ */
+.urg-label {
+  font-size: .75rem;
+  font-weight: 500;
+  color: var(--ink2);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.urg-req { color: var(--gold); }
+.urg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.urg-btn {
+  border: 1.5px solid var(--border);
+  background: var(--surface2);
+  border-radius: var(--radius-sm);
+  padding: 12px 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition);
+  font-family: 'DM Sans', sans-serif;
+  position: relative;
+}
+.urg-btn:hover { border-color: var(--border2); background: var(--surface); }
+.urg-icon { font-size: 1.25rem; display: block; margin-bottom: 5px; }
+.urg-title { font-size: .78rem; font-weight: 500; color: var(--ink); display: block; margin-bottom: 2px; }
+.urg-sub { font-size: .66rem; color: var(--ink3); display: block; line-height: 1.4; }
+
+.urg-btn[data-sel="urgent"]  { border-color: var(--red);   background: var(--red-bg);   }
+.urg-btn[data-sel="urgent"]  .urg-title { color: var(--red); }
+.urg-btn[data-sel="normal"]  { border-color: var(--gold);  background: var(--gold-bg);  }
+.urg-btn[data-sel="normal"]  .urg-title { color: var(--gold); }
+.urg-btn[data-sel="planned"] { border-color: var(--green); background: var(--green-bg); }
+.urg-btn[data-sel="planned"] .urg-title { color: var(--green); }
+
+/* Live ETA feedback */
+.eta-reveal {
+  margin-top: 10px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: .78rem;
+  line-height: 1.5;
+  display: none;
+  animation: fadeUp .2s ease;
+  border: 1px solid transparent;
+}
+.eta-reveal.show { display: block; }
+.eta-reveal.urgent  { background: var(--red-bg);   border-color: var(--red-bdr);   color: var(--red); }
+.eta-reveal.normal  { background: var(--gold-bg);  border-color: var(--gold-bdr);  color: var(--gold); }
+.eta-reveal.planned { background: var(--green-bg); border-color: var(--green-bdr); color: var(--green); }
+.eta-reveal strong { font-weight: 500; }
+.urg-err { font-size: .71rem; color: var(--red); margin-top: 6px; display: none; }
+.urg-err.show { display: block; }
+
+/* ═══════════════════════════════════════════════
+   ADD TASK BUTTON
+═══════════════════════════════════════════════ */
+.btn-add-task {
+  width: 100%;
+  background: transparent;
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius);
+  padding: 15px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .84rem;
+  color: var(--ink3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  transition: all var(--transition);
+  margin-bottom: 20px;
+}
+.btn-add-task:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-bg);
+}
+
+/* ═══════════════════════════════════════════════
+   SUBMIT BAR
+═══════════════════════════════════════════════ */
+.submit-bar {
+  background: var(--ink);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: var(--shadow-md);
+  animation: fadeUp .5s .2s ease both;
+}
+.submit-copy strong {
+  display: block;
+  font-size: .9rem;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 2px;
+}
+.submit-copy p { font-size: .74rem; color: #7A7570; line-height: 1.5; }
+.btn-submit {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 22px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .86rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+  letter-spacing: .02em;
+  flex-shrink: 0;
+}
+.btn-submit:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(184,134,11,.3);
+}
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ═══════════════════════════════════════════════
+   SENDING OVERLAY
+═══════════════════════════════════════════════ */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(250,250,248,.94);
+  backdrop-filter: blur(10px);
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s;
+}
+.overlay.on { opacity: 1; pointer-events: all; }
+.spinner {
+  width: 40px; height: 40px;
+  border: 2.5px solid var(--border2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay p { font-size: .84rem; color: var(--ink2); text-align: center; }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 520px) {
+  .row2 { grid-template-columns: 1fr; }
+  .urg-grid { grid-template-columns: 1fr; }
+  .submit-bar { flex-direction: column; align-items: stretch; }
+  .btn-submit { text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="logo">Algorithm<span class="logo-dot">.</span></div>
+    <div class="top-badge">Client Portal</div>
+  </div>
+
+  <!-- WELCOME — personalised or default, set by JS -->
+  <div class="welcome" id="welcomeBlock">
+    <div class="welcome-greeting" id="welcomeGreeting">Algorithm Agency</div>
+    <h1 id="welcomeHeading">What do you<br>need from <em>us?</em></h1>
+    <p id="welcomeSubtitle">Tell us what you need and we'll take it from there. You'll get a confirmation with exactly what to expect and when.</p>
+  </div>
+
+  <!-- DETAILS CARD — hidden when URL pre-fills client -->
+  <div class="details-card" id="detailsCard">
+    <div class="card-eyebrow">About you</div>
+    <div class="row2">
+      <div class="field" id="f-name">
+        <label>Your name <span style="color:var(--gold)">*</span></label>
+        <input type="text" id="cName" placeholder="Jane Smith" autocomplete="name" oninput="clearErr('f-name','cName')"/>
+        <span class="field-error" id="err-name">⚠ Please enter your name</span>
+      </div>
+      <div class="field" id="f-company">
+        <label>Your company <span style="color:var(--gold)">*</span></label>
+        <input type="text" id="cCompany" placeholder="Subaru South Africa" oninput="clearErr('f-company','cCompany')"/>
+        <span class="field-error" id="err-company">⚠ Please enter your company</span>
+      </div>
+    </div>
+    <div class="row2">
+      <div class="field" id="f-email">
+        <label>Email address <span style="color:var(--gold)">*</span></label>
+        <input type="email" id="cEmail" placeholder="jane@subaru.co.za" autocomplete="email" oninput="clearErr('f-email','cEmail')"/>
+        <span class="field-error" id="err-email">⚠ Please enter a valid email</span>
+      </div>
+      <div class="field">
+        <label>Website <span style="font-weight:300;font-style:italic;color:var(--ink3);font-size:.7rem">optional</span></label>
+        <input type="url" id="cSite" placeholder="https://subaru.co.za"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="tasks-section">
+    <div id="tasksWrap"></div>
+    <button type="button" class="btn-add-task" onclick="addTask()">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      Add another task
+    </button>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-bar">
+    <div class="submit-copy">
+      <strong>Ready to send?</strong>
+      <p>We'll confirm receipt and send your turnaround times by email.</p>
+    </div>
+    <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">Send request →</button>
+  </div>
+
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay">
+  <div>
+    <div class="spinner"></div>
+    <p>Sending your request…</p>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   CONFIG — replace YOUR_FORM_ID with Formspree ID
+═══════════════════════════════════════════════ */
+const FORMSPREE_ID = 'YOUR_FORM_ID';
+
+/* ═══════════════════════════════════════════════
+   URGENCY MAP — client sees plain English,
+   you see P-tier in your email
+═══════════════════════════════════════════════ */
+const UMAP = {
+  urgent: {
+    tier:     'P1 — Critical',
+    eta:      'Same day or within 24 hours',
+    ack:      'within 2 business hours',
+    etaMsg:   '⚡ <strong>Urgent:</strong> We\'ll acknowledge this within 2 business hours.',
+    pillText: 'Urgent',
+  },
+  normal: {
+    tier:     'P2 — Important',
+    eta:      '2–5 business days',
+    ack:      'within 1 business day',
+    etaMsg:   '📋 <strong>This week:</strong> We\'ll have this underway within 2–5 business days.',
+    pillText: 'This week',
+  },
+  planned: {
+    tier:     'P3 — Planned',
+    eta:      '1–3 weeks',
+    ack:      'within 2 business days',
+    etaMsg:   '🗓️ <strong>No rush:</strong> We\'ll schedule this and confirm a start date within a few days.',
+    pillText: 'No rush',
+  },
+};
+
+/* ═══════════════════════════════════════════════
+   URL PARAMETER PRE-FILL
+   Usage: index.html?name=Jane&company=Subaru&email=jane@subaru.co.za&site=subaru.co.za
+═══════════════════════════════════════════════ */
+let prefilled = false;
+let preClient = {};
+
+(function initPrefill() {
+  const p = new URLSearchParams(window.location.search);
+  const name    = p.get('name')    || '';
+  const company = p.get('company') || '';
+  const email   = p.get('email')   || '';
+  const site    = p.get('site')    || '';
+
+  if (name || company || email) {
+    // Hide the details card — we already know who they are
+    document.getElementById('detailsCard').style.display = 'none';
+    prefilled = true;
+    preClient = { name, company, email, site };
+
+    // Personalise the welcome message
+    const firstName = name.split(' ')[0];
+    document.getElementById('welcomeGreeting').textContent = company || 'Algorithm Agency';
+    document.getElementById('welcomeHeading').innerHTML =
+      `Hi ${firstName}, what<br>do you need <em>today?</em>`;
+    document.getElementById('welcomeSubtitle').textContent =
+      `Just describe what you need — we'll handle the rest and confirm exactly when to expect it.`;
+  }
+})();
+
+/* ═══════════════════════════════════════════════
+   TASK BUILDER
+═══════════════════════════════════════════════ */
+let taskCount = 0;
+
+function addTask() {
+  taskCount++;
+  const id = taskCount;
+  const wrap = document.getElementById('tasksWrap');
+  const div  = document.createElement('div');
+  div.className = 'task-card';
+  div.id = `tc-${id}`;
+  div.dataset.urg = '';
+
+  const isFirst = wrap.children.length === 0;
+
+  div.innerHTML = `
+    <div class="card-stripe"></div>
+    <div class="card-head">
+      <div class="card-head-left">
+        <span class="task-label">${isFirst ? 'Your request' : `Task #${id}`}</span>
+        <span class="urg-pill" id="pill-${id}"></span>
+      </div>
+      ${!isFirst ? `<button type="button" class="btn-remove" onclick="removeTask(${id})">
+        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Remove
+      </button>` : ''}
+    </div>
+    <div class="card-body">
+
+      <div class="micro-q" id="mq-what-${id}">
+        <label>What do you need? <span style="color:var(--gold)">*</span></label>
+        <input
+          type="text"
+          class="q-what"
+          id="q-what-${id}"
+          placeholder="e.g. The contact form on the homepage isn't sending emails"
+          oninput="clearMicroErr('mq-what-${id}','q-what-${id}')"
+        />
+        <div class="micro-err" id="merr-what-${id}">⚠ Please describe what you need</div>
+      </div>
+
+      <div class="micro-q" id="mq-where-${id}">
+        <label>
+          Where on the site?
+          <span class="opt">optional if not applicable</span>
+        </label>
+        <input
+          type="text"
+          class="q-where"
+          id="q-where-${id}"
+          placeholder="e.g. Homepage › Contact section — or paste the URL"
+        />
+      </div>
+
+      <div class="micro-q" id="mq-more-${id}">
+        <label>
+          Anything else we should know?
+          <span class="opt">optional</span>
+        </label>
+        <textarea
+          class="q-more"
+          id="q-more-${id}"
+          rows="3"
+          placeholder="Any extra context, screenshots, reference links, or examples that help explain it…"
+        ></textarea>
+      </div>
+
+      <div class="card-divider"></div>
+
+      <div>
+        <div class="urg-label">How urgent is this? <span class="urg-req">*</span></div>
+        <div class="urg-grid">
+          <button type="button" class="urg-btn" onclick="setUrg(${id},'urgent',this)">
+            <span class="urg-icon">🚨</span>
+            <span class="urg-title">It's urgent</span>
+            <span class="urg-sub">Affecting the site or business right now</span>
+          </button>
+          <button type="button" class="urg-btn" onclick="setUrg(${id},'normal',this)">
+            <span class="urg-icon">📋</span>
+            <span class="urg-title">This week</span>
+            <span class="urg-sub">Important but not stopping anything</span>
+          </button>
+          <button type="button" class="urg-btn" onclick="setUrg(${id},'planned',this)">
+            <span class="urg-icon">🗓️</span>
+            <span class="urg-title">No rush</span>
+            <span class="urg-sub">Improvement or idea, whenever there's bandwidth</span>
+          </button>
+        </div>
+        <div class="eta-reveal" id="eta-${id}"></div>
+        <div class="urg-err" id="uerr-${id}">⚠ Please select how urgent this is</div>
+      </div>
+
+    </div>`;
+
+  wrap.appendChild(div);
+  if (!isFirst) {
+    setTimeout(() => div.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+  }
+}
+
+function removeTask(id) {
+  const el = document.getElementById(`tc-${id}`);
+  if (!el) return;
+  el.style.transition = 'opacity .18s, transform .18s';
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(-8px)';
+  setTimeout(() => el.remove(), 200);
+}
+
+function setUrg(id, urg, btn) {
+  const card = document.getElementById(`tc-${id}`);
+  card.dataset.urg = urg;
+
+  // Update button states
+  card.querySelectorAll('.urg-btn').forEach(b => delete b.dataset.sel);
+  btn.dataset.sel = urg;
+
+  // Update pill in header
+  const pill = document.getElementById(`pill-${id}`);
+  const u = UMAP[urg];
+  pill.textContent = u.pillText;
+
+  // Show live ETA feedback
+  const eta = document.getElementById(`eta-${id}`);
+  eta.innerHTML = u.etaMsg;
+  eta.className = `eta-reveal show ${urg}`;
+
+  // Clear urgency error if shown
+  const uerr = document.getElementById(`uerr-${id}`);
+  if (uerr) uerr.classList.remove('show');
+}
+
+/* ═══════════════════════════════════════════════
+   INLINE ERROR HELPERS
+═══════════════════════════════════════════════ */
+function clearErr(fieldId, inputId) {
+  document.getElementById(fieldId)?.querySelector('.field-error')?.classList.remove('show');
+  document.getElementById(inputId)?.classList.remove('err');
+}
+function clearMicroErr(mqId, inputId) {
+  document.getElementById(mqId)?.querySelector('.micro-err')?.classList.remove('show');
+  document.getElementById(inputId)?.classList.remove('err');
+}
+function showErr(fieldId, inputId, errId) {
+  document.getElementById(errId)?.classList.add('show');
+  document.getElementById(inputId)?.classList.add('err');
+  document.getElementById(inputId)?.focus();
+}
+function showMicroErr(mqId, inputId, errId) {
+  document.getElementById(errId)?.classList.add('show');
+  document.getElementById(inputId)?.classList.add('err');
+  document.getElementById(inputId)?.focus();
+}
+
+/* ═══════════════════════════════════════════════
+   COLLECT
+═══════════════════════════════════════════════ */
+function collectTasks() {
+  return Array.from(document.querySelectorAll('.task-card')).map((card, i) => ({
+    num:   i + 1,
+    what:  card.querySelector('.q-what')?.value?.trim()  || '',
+    where: card.querySelector('.q-where')?.value?.trim() || '',
+    more:  card.querySelector('.q-more')?.value?.trim()  || '',
+    urg:   card.dataset.urg || '',
+    id:    card.id.replace('tc-', ''),
+  }));
+}
+
+/* ═══════════════════════════════════════════════
+   BUILD YOUR EMAIL — full detail with P-tiers
+═══════════════════════════════════════════════ */
+function buildAgencyEmail(client, tasks) {
+  const now = new Date().toLocaleString('en-ZA', { dateStyle: 'full', timeStyle: 'short' });
+  const hasCritical = tasks.some(t => t.urg === 'urgent');
+
+  let s = '';
+  s += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  s += `  NEW BRIEF — Algorithm Agency\n`;
+  s += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  s += `  Client     ${client.name}\n`;
+  s += `  Company    ${client.company}\n`;
+  s += `  Email      ${client.email}\n`;
+  if (client.site) s += `  Website    ${client.site}\n`;
+  s += `  Received   ${now}\n`;
+  s += `  Tasks      ${tasks.length}`;
+  if (hasCritical) s += `  ⚠ CONTAINS URGENT ITEM`;
+  s += `\n\n`;
+
+  tasks.forEach(t => {
+    const u = UMAP[t.urg] || UMAP.normal;
+    s += `─────────────────────────────────────────\n`;
+    s += `  TASK ${t.num}  ·  ${u.tier}\n`;
+    s += `─────────────────────────────────────────\n`;
+    s += `  What:      ${t.what}\n`;
+    if (t.where) s += `  Where:     ${t.where}\n`;
+    s += `  Priority:  ${u.tier}\n`;
+    s += `  ETA:       ${u.eta}\n`;
+    if (t.more) s += `\n  Notes:\n  ${t.more.replace(/\n/g, '\n  ')}\n`;
+    s += '\n';
+  });
+
+  s += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  s += `  Hit reply to respond directly to ${client.name}.\n`;
+  return s;
+}
+
+/* ═══════════════════════════════════════════════
+   BUILD CLIENT CONFIRMATION — plain English only
+═══════════════════════════════════════════════ */
+function buildClientEmail(client, tasks) {
+  const firstName = client.name.split(' ')[0];
+  const ord = { urgent: 0, normal: 1, planned: 2 };
+  const sorted = [...tasks].sort((a, b) => (ord[a.urg] ?? 1) - (ord[b.urg] ?? 1));
+
+  let s = `Hi ${firstName},\n\n`;
+
+  if (tasks.some(t => t.urg === 'urgent')) {
+    s += `Your urgent request has been flagged and our team has been notified. `;
+  }
+  s += `We've received your request${tasks.length > 1 ? 's' : ''} and they're in our queue.\n\n`;
+
+  s += `Here's what you submitted and when to expect each item:\n\n`;
+  sorted.forEach(t => {
+    const u = UMAP[t.urg] || UMAP.normal;
+    s += `▸  ${t.what}\n`;
+    s += `   Turnaround: ${u.eta}\n\n`;
+  });
+
+  s += `──────────────────────────────────────\n`;
+  s += `What happens next:\n\n`;
+  if (tasks.some(t => t.urg === 'urgent'))
+    s += `• Urgent — we'll be in touch within 2 business hours to confirm.\n`;
+  if (tasks.some(t => t.urg === 'normal'))
+    s += `• This week — picked up in our active sprint within 2–5 business days.\n`;
+  if (tasks.some(t => t.urg === 'planned'))
+    s += `• No rush — we'll confirm a schedule within a few days.\n`;
+
+  s += `\nIf urgency changes on anything, just reply to this email.\n\n`;
+  s += `Talk soon,\nAshlin\nAlgorithm Agency\n`;
+  return s;
+}
+
+/* ═══════════════════════════════════════════════
+   SUBMIT
+═══════════════════════════════════════════════ */
+async function handleSubmit() {
+  let hasError = false;
+
+  // Validate client details (only if not pre-filled)
+  let client = { ...preClient };
+
+  if (!prefilled) {
+    const name    = document.getElementById('cName').value.trim();
+    const company = document.getElementById('cCompany').value.trim();
+    const email   = document.getElementById('cEmail').value.trim();
+    const site    = document.getElementById('cSite').value.trim();
+
+    if (!name) {
+      showErr('f-name', 'cName', 'err-name');
+      hasError = true;
+    }
+    if (!company) {
+      showErr('f-company', 'cCompany', 'err-company');
+      if (!hasError) hasError = true;
+    }
+    if (!email || !email.includes('@')) {
+      showErr('f-email', 'cEmail', 'err-email');
+      if (!hasError) hasError = true;
+    }
+    if (hasError) return;
+    client = { name, company, email, site };
+  }
+
+  // Validate tasks
+  const tasks = collectTasks();
+  if (!tasks.length) {
+    alert('Please add at least one task.');
+    return;
+  }
+
+  for (const t of tasks) {
+    if (!t.what) {
+      showMicroErr(`mq-what-${t.id}`, `q-what-${t.id}`, `merr-what-${t.id}`);
+      return;
+    }
+    if (!t.urg) {
+      const el = document.getElementById(`uerr-${t.id}`);
+      if (el) el.classList.add('show');
+      document.getElementById(`tc-${t.id}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  // Build subject
+  const hasUrgent = tasks.some(t => t.urg === 'urgent');
+  const subject = hasUrgent
+    ? `🚨 URGENT — ${client.company} (${tasks.length} task${tasks.length > 1 ? 's' : ''})`
+    : `New Brief — ${client.company} (${tasks.length} task${tasks.length > 1 ? 's' : ''})`;
+
+  // Save to sessionStorage for thank-you page
+  sessionStorage.setItem('__brief', JSON.stringify({
+    name: client.name,
+    tasks: tasks.map(t => ({ what: t.what, urg: t.urg })),
+  }));
+
+  const payload = {
+    _subject:             subject,
+    _replyto:             client.email,
+    client_name:          client.name,
+    client_company:       client.company,
+    client_email:         client.email,
+    client_website:       client.site || '—',
+    full_brief:           buildAgencyEmail(client, tasks),
+    client_confirmation:  buildClientEmail(client, tasks),
+    _gotcha:              '',
+  };
+
+  document.getElementById('overlay').classList.add('on');
+  document.getElementById('submitBtn').disabled = true;
+
+  try {
+    const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      window.location.href = 'thankyou.html';
+    } else {
+      const d = await res.json();
+      throw new Error(d?.errors?.[0]?.message || 'Submission failed');
+    }
+  } catch (err) {
+    document.getElementById('overlay').classList.remove('on');
+    document.getElementById('submitBtn').disabled = false;
+    alert(`Something went wrong:\n${err.message}\n\nCheck that FORMSPREE_ID is set correctly.`);
+  }
+}
+
+// Kick off with one task on load
+addTask();
+</script>
+
+</body>
+</html>
