@@ -3,48 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Send us a task — Algorithm Agency</title>
+<title>Submit a Task — Algorithm</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   DESIGN SYSTEM — Algorithm Brand
+══════════════════════════════════════════════════════════ */
 :root {
-  --bg:         #FAFAF8;
-  --surface:    #FFFFFF;
-  --surface2:   #F5F4F1;
-  --border:     #E8E4DE;
-  --border2:    #D4CEC5;
-  --ink:        #1C1A17;
-  --ink2:       #6B6560;
-  --ink3:       #A8A39C;
-  --gold:       #B8860B;
-  --gold-light: #D4A017;
-  --gold-bg:    #FBF6EC;
-  --gold-bdr:   #EDD98A;
-  --red:        #B83232;
-  --red-bg:     #FDF2F2;
-  --red-bdr:    #EDAAAA;
-  --green:      #2D7A4F;
-  --green-bg:   #F0F9F4;
-  --green-bdr:  #A3D4B8;
-  --radius:     14px;
-  --radius-sm:  9px;
-  --shadow:     0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.05);
-  --shadow-md:  0 2px 8px rgba(0,0,0,.07), 0 8px 28px rgba(0,0,0,.07);
-  --transition: .18s cubic-bezier(.4,0,.2,1);
+  --bg:           #1A1D23;
+  --bg-elevated:  #21252D;
+  --bg-card:      #2A2F3A;
+  --border:       #3A4050;
+  --border-light: #4A5060;
+  
+  --text:         #FFFFFF;
+  --text-muted:   #9BA3B4;
+  --text-dim:     #6B7280;
+  
+  --cyan:         #00D4FF;
+  --cyan-hover:   #33DDFF;
+  --cyan-dim:     rgba(0,212,255,0.1);
+  --cyan-border:  rgba(0,212,255,0.3);
+  
+  --red:          #FF4757;
+  --red-dim:      rgba(255,71,87,0.1);
+  --green:        #1DD1A1;
+  --green-dim:    rgba(29,209,161,0.1);
+  --amber:        #FFC107;
+  --amber-dim:    rgba(255,193,7,0.1);
+  
+  --radius: 12px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.3);
+  --transition: 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* ═══════════════════════════════════════════════
-   BASE
-═══════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
   font-weight: 300;
   font-size: 15px;
   line-height: 1.6;
@@ -52,357 +51,316 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Subtle grain texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    LAYOUT
-═══════════════════════════════════════════════ */
-.wrap {
-  max-width: 640px;
+══════════════════════════════════════════════════════════ */
+.container {
+  max-width: 680px;
   margin: 0 auto;
   padding: 0 20px 80px;
-  position: relative;
-  z-index: 1;
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    HEADER
-═══════════════════════════════════════════════ */
-.top-bar {
+══════════════════════════════════════════════════════════ */
+.header {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+.header-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 22px 0 0;
-  margin-bottom: 44px;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 20px;
 }
 .logo {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: -.01em;
+  display: flex;
+  align-items: center;
 }
-.logo-dot { color: var(--gold); }
-.top-badge {
-  font-size: .65rem;
+.logo-icon {
+  height: 32px;
+  width: auto;
+}
+.badge {
+  font-size: 0.65rem;
   font-weight: 500;
-  letter-spacing: .1em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink3);
-  border: 1px solid var(--border2);
-  padding: 5px 11px;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan-border);
+  padding: 5px 12px;
   border-radius: 20px;
-  background: var(--surface);
 }
 
-/* ═══════════════════════════════════════════════
-   WELCOME BLOCK (personalised or default)
-═══════════════════════════════════════════════ */
-.welcome {
-  margin-bottom: 36px;
-  animation: fadeUp .5s ease both;
+/* ══════════════════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════════════════ */
+.hero {
+  padding: 48px 0 36px;
+  animation: fadeIn 0.5s ease;
 }
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.welcome-greeting {
-  font-size: .72rem;
-  font-weight: 500;
-  letter-spacing: .12em;
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.hero-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 10px;
+  color: var(--cyan);
+  margin-bottom: 12px;
 }
-.welcome h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.9rem, 5vw, 2.7rem);
-  font-weight: 400;
-  line-height: 1.12;
-  letter-spacing: -.03em;
-  color: var(--ink);
+.hero h1 {
+  font-size: clamp(1.9rem, 5vw, 2.5rem);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
   margin-bottom: 14px;
 }
-.welcome h1 em { font-style: italic; color: var(--gold); }
-.welcome p {
-  font-size: .92rem;
-  color: var(--ink2);
-  line-height: 1.75;
-  max-width: 460px;
+.hero h1 .highlight { color: var(--cyan); }
+.hero p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 500px;
 }
 
-/* ═══════════════════════════════════════════════
-   CLIENT DETAILS (shown when NOT pre-filled)
-═══════════════════════════════════════════════ */
-.details-card {
-  background: var(--surface);
+/* ══════════════════════════════════════════════════════════
+   CARDS
+══════════════════════════════════════════════════════════ */
+.card {
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
   margin-bottom: 16px;
   box-shadow: var(--shadow);
-  animation: fadeUp .5s .1s ease both;
 }
-.card-eyebrow {
-  font-size: .63rem;
-  font-weight: 500;
-  letter-spacing: .13em;
+.card-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ink3);
-  margin-bottom: 16px;
+  color: var(--text-muted);
+  margin-bottom: 18px;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.card-eyebrow::after {
+.card-label::after {
   content: '';
   flex: 1;
   height: 1px;
   background: var(--border);
 }
-.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.row2 + .row2 { margin-top: 12px; }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    FIELDS
-═══════════════════════════════════════════════ */
-.field { display: flex; flex-direction: column; gap: 5px; }
+══════════════════════════════════════════════════════════ */
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
 .field label {
-  font-size: .75rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  color: var(--ink2);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  color: var(--text-muted);
 }
-.field label .hint {
-  font-weight: 300;
-  color: var(--ink3);
-  font-size: .7rem;
-}
+.field label .req { color: var(--cyan); }
 .field input, .field textarea {
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  font-size: .9rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
   font-weight: 300;
-  padding: 10px 13px;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  padding: 11px 14px;
+  transition: all var(--transition);
   outline: none;
   width: 100%;
 }
 .field textarea { resize: none; line-height: 1.6; }
 .field input:focus, .field textarea:focus {
-  border-color: var(--gold);
-  background: var(--surface);
-  box-shadow: 0 0 0 3px rgba(184,134,11,.1);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-dim);
 }
-.field input::placeholder, .field textarea::placeholder { color: var(--ink3); }
-
-/* Inline error */
+.field input::placeholder, .field textarea::placeholder { color: var(--text-dim); }
+.field input.err, .field textarea.err {
+  border-color: var(--red);
+  background: var(--red-dim);
+}
 .field-error {
-  font-size: .72rem;
+  font-size: 0.72rem;
   color: var(--red);
-  font-weight: 400;
   display: none;
   align-items: center;
   gap: 4px;
-  margin-top: 2px;
 }
 .field-error.show { display: flex; }
-.field input.err, .field textarea.err {
-  border-color: var(--red);
-  background: var(--red-bg);
-}
-.field input.err:focus, .field textarea.err:focus {
-  box-shadow: 0 0 0 3px rgba(184,50,50,.1);
-}
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    TASK CARD
-═══════════════════════════════════════════════ */
-.tasks-section {
-  animation: fadeUp .5s .15s ease both;
-}
+══════════════════════════════════════════════════════════ */
 .task-card {
-  background: var(--surface);
-  border: 1.5px solid var(--border);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   margin-bottom: 14px;
   box-shadow: var(--shadow);
-  animation: cardIn .3s ease both;
+  animation: slideIn 0.3s ease;
 }
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(-10px) scale(.99); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Colour stripe top */
-.card-stripe {
+.task-stripe {
   height: 3px;
-  background: var(--border2);
-  transition: background .25s ease;
+  background: var(--border);
+  transition: background 0.3s;
 }
-.task-card[data-urg="urgent"]  .card-stripe { background: var(--red); }
-.task-card[data-urg="normal"]  .card-stripe { background: var(--gold); }
-.task-card[data-urg="planned"] .card-stripe { background: var(--green); }
+.task-card[data-urg="urgent"]  .task-stripe { background: var(--red); }
+.task-card[data-urg="normal"]  .task-stripe { background: var(--amber); }
+.task-card[data-urg="planned"] .task-stripe { background: var(--green); }
 
-.card-head {
+.task-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 13px 18px 11px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border);
 }
-.card-head-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.task-label {
-  font-size: .65rem;
-  font-weight: 500;
-  letter-spacing: .1em;
+.task-header-left { display: flex; align-items: center; gap: 10px; }
+.task-num {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink3);
+  color: var(--text-muted);
 }
-.urg-pill {
-  font-size: .63rem;
-  font-weight: 500;
-  padding: 3px 9px;
+.task-pill {
+  font-size: 0.63rem;
+  font-weight: 600;
+  padding: 3px 10px;
   border-radius: 12px;
   display: none;
-  letter-spacing: .04em;
+  letter-spacing: 0.04em;
 }
-.task-card[data-urg="urgent"]  .urg-pill { display: inline-block; background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-bdr); }
-.task-card[data-urg="normal"]  .urg-pill { display: inline-block; background: var(--gold-bg);  color: var(--gold);  border: 1px solid var(--gold-bdr); }
-.task-card[data-urg="planned"] .urg-pill { display: inline-block; background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bdr); }
+.task-card[data-urg="urgent"]  .task-pill { display: inline; background: var(--red-dim); color: var(--red); }
+.task-card[data-urg="normal"]  .task-pill { display: inline; background: var(--amber-dim); color: var(--amber); }
+.task-card[data-urg="planned"] .task-pill { display: inline; background: var(--green-dim); color: var(--green); }
 
 .btn-remove {
   background: none;
   border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .75rem;
-  color: var(--ink3);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-dim);
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 5px 10px;
   border-radius: 6px;
   transition: all var(--transition);
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
-.btn-remove:hover { background: var(--red-bg); color: var(--red); }
+.btn-remove:hover { background: var(--red-dim); color: var(--red); }
 
-.card-body { padding: 18px 18px 16px; }
+.task-body { padding: 18px; }
 
 /* Micro questions */
-.micro-q { margin-bottom: 13px; }
+.micro-q { margin-bottom: 14px; }
 .micro-q:last-of-type { margin-bottom: 0; }
 .micro-q label {
-  font-size: .75rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  color: var(--ink2);
+  color: var(--text-muted);
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 .micro-q label .opt {
   font-weight: 300;
   font-style: italic;
-  color: var(--ink3);
-  font-size: .7rem;
+  color: var(--text-dim);
+  font-size: 0.72rem;
 }
 .micro-q input, .micro-q textarea {
-  background: var(--surface2);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--ink);
-  font-family: 'DM Sans', sans-serif;
-  font-size: .9rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
   font-weight: 300;
-  padding: 10px 13px;
+  padding: 11px 14px;
   width: 100%;
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition: all var(--transition);
   resize: none;
 }
 .micro-q input:focus, .micro-q textarea:focus {
-  border-color: var(--gold);
-  background: var(--surface);
-  box-shadow: 0 0 0 3px rgba(184,134,11,.1);
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-dim);
 }
-.micro-q input::placeholder, .micro-q textarea::placeholder { color: var(--ink3); }
+.micro-q input::placeholder, .micro-q textarea::placeholder { color: var(--text-dim); }
 .micro-q input.err, .micro-q textarea.err {
   border-color: var(--red);
-  background: var(--red-bg);
+  background: var(--red-dim);
 }
 .micro-err {
-  font-size: .71rem;
+  font-size: 0.72rem;
   color: var(--red);
-  margin-top: 3px;
+  margin-top: 4px;
   display: none;
 }
 .micro-err.show { display: block; }
 
-/* File upload section */
-.file-upload-wrap {
-  margin-top: 13px;
-  padding: 14px;
-  background: var(--surface2);
-  border: 1.5px dashed var(--border2);
-  border-radius: var(--radius-sm);
+/* File upload */
+.file-upload {
+  margin-top: 14px;
+  padding: 16px;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border-light);
+  border-radius: 8px;
   transition: all var(--transition);
+  cursor: pointer;
 }
-.file-upload-wrap:hover {
-  border-color: var(--gold);
-  background: var(--gold-bg);
+.file-upload:hover {
+  border-color: var(--cyan);
+  background: var(--cyan-dim);
 }
 .file-upload-label {
-  font-size: .75rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  color: var(--ink2);
-  margin-bottom: 6px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
   display: block;
 }
 .file-upload-label .opt {
   font-weight: 300;
   font-style: italic;
-  color: var(--ink3);
-  font-size: .7rem;
+  color: var(--text-dim);
+  font-size: 0.72rem;
 }
-.file-input-custom {
+.file-input-area {
   display: flex;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.file-input-hidden {
-  display: none;
+  gap: 12px;
 }
 .file-btn {
-  background: var(--surface);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 7px 13px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .78rem;
-  font-weight: 400;
-  color: var(--ink2);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
   cursor: pointer;
   transition: all var(--transition);
   display: flex;
@@ -411,196 +369,196 @@ body::before {
   flex-shrink: 0;
 }
 .file-btn:hover {
-  border-color: var(--gold);
-  color: var(--gold);
+  border-color: var(--cyan);
+  color: var(--cyan);
 }
-.file-name-display {
-  font-size: .78rem;
-  color: var(--ink3);
+.file-name {
+  font-size: 0.78rem;
+  color: var(--text-dim);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.file-name-display.has-file {
-  color: var(--ink);
+.file-name.selected {
+  color: var(--text);
   font-weight: 400;
 }
 .file-hint {
-  font-size: .7rem;
-  color: var(--ink3);
+  font-size: 0.7rem;
+  color: var(--text-dim);
   margin-top: 6px;
   line-height: 1.4;
 }
+.file-hidden { display: none; }
 
-/* Divider inside card */
-.card-divider {
+.task-divider {
   height: 1px;
   background: var(--border);
-  margin: 16px -18px;
+  margin: 18px 0;
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    URGENCY SELECTOR
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 .urg-label {
-  font-size: .75rem;
+  font-size: 0.78rem;
   font-weight: 500;
-  color: var(--ink2);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
 }
-.urg-req { color: var(--gold); }
+.urg-label .req { color: var(--cyan); }
 .urg-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 .urg-btn {
-  border: 1.5px solid var(--border);
-  background: var(--surface2);
-  border-radius: var(--radius-sm);
-  padding: 12px 6px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 8px;
   cursor: pointer;
   text-align: center;
   transition: all var(--transition);
-  font-family: 'DM Sans', sans-serif;
-  position: relative;
+  font-family: 'Inter', sans-serif;
 }
-.urg-btn:hover { border-color: var(--border2); background: var(--surface); }
-.urg-icon { font-size: 1.25rem; display: block; margin-bottom: 5px; }
-.urg-title { font-size: .78rem; font-weight: 500; color: var(--ink); display: block; margin-bottom: 2px; }
-.urg-sub { font-size: .66rem; color: var(--ink3); display: block; line-height: 1.4; }
+.urg-btn:hover {
+  border-color: var(--border-light);
+  background: var(--bg-card);
+}
+.urg-icon { font-size: 1.3rem; display: block; margin-bottom: 6px; }
+.urg-title { font-size: 0.8rem; font-weight: 600; color: var(--text); display: block; margin-bottom: 3px; }
+.urg-sub { font-size: 0.68rem; color: var(--text-dim); display: block; line-height: 1.4; }
 
-.urg-btn[data-sel="urgent"]  { border-color: var(--red);   background: var(--red-bg);   }
+.urg-btn[data-sel="urgent"]  { border-color: var(--red);   background: var(--red-dim); }
 .urg-btn[data-sel="urgent"]  .urg-title { color: var(--red); }
-.urg-btn[data-sel="normal"]  { border-color: var(--gold);  background: var(--gold-bg);  }
-.urg-btn[data-sel="normal"]  .urg-title { color: var(--gold); }
-.urg-btn[data-sel="planned"] { border-color: var(--green); background: var(--green-bg); }
+.urg-btn[data-sel="normal"]  { border-color: var(--amber); background: var(--amber-dim); }
+.urg-btn[data-sel="normal"]  .urg-title { color: var(--amber); }
+.urg-btn[data-sel="planned"] { border-color: var(--green); background: var(--green-dim); }
 .urg-btn[data-sel="planned"] .urg-title { color: var(--green); }
 
-/* Live ETA feedback */
-.eta-reveal {
-  margin-top: 10px;
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  font-size: .78rem;
+.eta-box {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
   line-height: 1.5;
   display: none;
-  animation: fadeUp .2s ease;
   border: 1px solid transparent;
 }
-.eta-reveal.show { display: block; }
-.eta-reveal.urgent  { background: var(--red-bg);   border-color: var(--red-bdr);   color: var(--red); }
-.eta-reveal.normal  { background: var(--gold-bg);  border-color: var(--gold-bdr);  color: var(--gold); }
-.eta-reveal.planned { background: var(--green-bg); border-color: var(--green-bdr); color: var(--green); }
-.eta-reveal strong { font-weight: 500; }
-.urg-err { font-size: .71rem; color: var(--red); margin-top: 6px; display: none; }
+.eta-box.show { display: block; }
+.eta-box.urgent  { background: var(--red-dim);   border-color: var(--red);   color: var(--red); }
+.eta-box.normal  { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+.eta-box.planned { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.eta-box strong { font-weight: 600; }
+.urg-err { font-size: 0.72rem; color: var(--red); margin-top: 8px; display: none; }
 .urg-err.show { display: block; }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    ADD TASK BUTTON
-═══════════════════════════════════════════════ */
-.btn-add-task {
+══════════════════════════════════════════════════════════ */
+.btn-add {
   width: 100%;
   background: transparent;
-  border: 1.5px dashed var(--border2);
+  border: 1px dashed var(--border);
   border-radius: var(--radius);
-  padding: 15px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .84rem;
-  color: var(--ink3);
+  padding: 16px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: var(--text-dim);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 8px;
   transition: all var(--transition);
   margin-bottom: 20px;
 }
-.btn-add-task:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-  background: var(--gold-bg);
+.btn-add:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: var(--cyan-dim);
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    SUBMIT BAR
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════════════════════ */
 .submit-bar {
-  background: var(--ink);
+  background: linear-gradient(135deg, #21252D 0%, #2A2F3A 100%);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 20px 24px;
+  padding: 22px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  box-shadow: var(--shadow-md);
-  animation: fadeUp .5s .2s ease both;
+  gap: 18px;
+  box-shadow: var(--shadow);
 }
-.submit-copy strong {
+.submit-text strong {
   display: block;
-  font-size: .9rem;
-  font-weight: 500;
-  color: #fff;
-  margin-bottom: 2px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
 }
-.submit-copy p { font-size: .74rem; color: #7A7570; line-height: 1.5; }
+.submit-text p { font-size: 0.76rem; color: var(--text-dim); line-height: 1.5; }
 .btn-submit {
-  background: var(--gold);
-  color: #fff;
+  background: var(--cyan);
+  color: #000;
   border: none;
-  border-radius: var(--radius-sm);
-  padding: 12px 22px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: .86rem;
-  font-weight: 500;
+  border-radius: 8px;
+  padding: 13px 26px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   transition: all var(--transition);
-  letter-spacing: .02em;
+  letter-spacing: 0.01em;
   flex-shrink: 0;
 }
 .btn-submit:hover {
-  background: var(--gold-light);
+  background: var(--cyan-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(184,134,11,.3);
+  box-shadow: 0 4px 16px rgba(0,212,255,0.4);
 }
-.btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-/* ═══════════════════════════════════════════════
-   SENDING OVERLAY
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   OVERLAY
+══════════════════════════════════════════════════════════ */
 .overlay {
-  position: fixed; inset: 0;
-  background: rgba(250,250,248,.94);
+  position: fixed;
+  inset: 0;
+  background: rgba(26,29,35,0.95);
   backdrop-filter: blur(10px);
-  z-index: 99;
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
 }
 .overlay.on { opacity: 1; pointer-events: all; }
+.spinner-box { text-align: center; }
 .spinner {
-  width: 40px; height: 40px;
-  border: 2.5px solid var(--border2);
-  border-top-color: var(--gold);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top-color: var(--cyan);
   border-radius: 50%;
-  animation: spin .7s linear infinite;
+  animation: spin 0.7s linear infinite;
   margin: 0 auto 14px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-.overlay p { font-size: .84rem; color: var(--ink2); text-align: center; }
+.spinner-box p { font-size: 0.85rem; color: var(--text-muted); }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════════
    RESPONSIVE
-═══════════════════════════════════════════════ */
-@media (max-width: 520px) {
+══════════════════════════════════════════════════════════ */
+@media (max-width: 540px) {
   .row2 { grid-template-columns: 1fr; }
   .urg-grid { grid-template-columns: 1fr; }
   .submit-bar { flex-direction: column; align-items: stretch; }
@@ -610,61 +568,64 @@ body::before {
 </head>
 <body>
 
-<div class="wrap">
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <svg class="logo-icon" viewBox="0 0 271 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M15.23 0.176419C14.2488 0.650973 13.8082 1.60316 14.0044 2.82503L14.064 3.19684L8.60098 8.12032C4.44471 11.8662 3.09518 13.039 2.95904 13.0234C2.86057 13.0122 2.54358 12.9979 2.25456 12.9917C1.2989 12.9713 0.446481 13.5316 0.115667 14.3977C-0.0634835 14.8669 -0.0293672 15.8154 0.182283 16.2508C0.393852 16.6859 0.938175 17.1868 1.36002 17.3347C1.56302 17.4058 1.78227 17.4912 1.84735 17.5245C1.91243 17.5577 3.80855 21.7837 6.06102 26.9155C9.53724 34.8353 10.1403 36.2647 10.05 36.3688C9.58534 36.9048 9.46812 38.0422 9.80435 38.7522C10.1921 39.571 10.8949 40.003 11.8346 40C12.7835 39.997 13.4019 39.6587 13.8232 38.9123L14.0571 38.4979L32.0957 33.5505L32.5082 33.7646C33.3778 34.2158 34.5521 34.0676 35.193 33.426C35.7115 32.9067 35.8455 32.5634 35.8438 31.7592C35.8421 30.9916 35.736 30.7062 35.272 30.2213L34.9995 29.9365L40.4397 9.05634L40.8104 9.00209C42.0138 8.82585 42.7886 7.93907 42.7886 6.73797C42.7886 6.05718 42.5959 5.57123 42.1485 5.12375C41.2983 4.27368 39.8418 4.24821 38.9694 5.06822C38.8203 5.20848 38.6566 5.32368 38.6056 5.32425C38.2658 5.32805 18.4809 1.87495 18.4633 1.80874C18.337 1.33362 18.1229 0.931017 17.85 0.655339C17.3765 0.177227 17.038 0.0372858 16.281 0.00688841C15.7293 -0.0152629 15.5748 0.00963712 15.23 0.176419ZM28.3267 4.63974C33.6625 5.55328 38.0865 6.31806 38.158 6.33925C38.2425 6.36423 38.2757 6.44071 38.253 6.55785C38.2228 6.71396 37.4863 7.03046 32.7317 8.93095L27.2454 11.1239L26.8488 10.7416C26.2119 10.1278 25.3568 9.93673 24.5189 10.2212C24.1633 10.3419 24.1331 10.3408 24.0009 10.201C23.8978 10.092 19.3691 4.87281 18.2796 3.60736C18.1794 3.49103 18.1763 3.42732 18.2608 3.22335C18.3166 3.08875 18.4214 2.97872 18.4938 2.97872C18.5662 2.97872 22.991 3.7262 28.3267 4.63974ZM15.1592 4.25056C15.4966 4.43957 15.6467 4.47159 16.2002 4.47231C16.6632 4.47296 16.9203 4.43318 17.1053 4.33245L17.3636 4.19178L23.3496 11.0813L23.2174 11.335C23.1435 11.4766 23.0689 11.8607 23.0485 12.2043L23.012 12.82L16.1036 15.5596L15.8352 15.3354C15.2908 14.8809 14.3741 14.7373 13.6321 14.9901C13.1869 15.1418 12.5839 15.6494 12.4421 15.9919C12.3862 16.1268 12.3176 16.2383 12.2897 16.2397C12.2617 16.2411 10.5035 15.9964 8.38246 15.6958L4.5262 15.1494L4.47325 14.8242C4.44414 14.6453 4.32659 14.3246 4.21196 14.1114L4.00354 13.7238L4.20024 13.5336C4.47899 13.2639 14.7277 4.02969 14.7481 4.02969C14.7574 4.02969 14.9424 4.12905 15.1592 4.25056ZM138.557 5.24672C132.657 5.65628 127.526 9.54641 125.713 14.9841C125.202 16.5189 125.101 17.2219 125.099 19.2688C125.098 21.3527 125.174 21.9038 125.679 23.4727C127.996 30.6644 135.73 34.7958 143.389 32.9332C148.245 31.7521 152.244 28.0762 153.706 23.4492C154.189 21.9198 154.277 21.2772 154.277 19.2688C154.277 17.6446 154.254 17.3045 154.096 16.5808C152.988 11.5037 149.329 7.51755 144.295 5.90544C142.568 5.3523 140.484 5.113 138.557 5.24672ZM109.211 5.45449C105.355 5.80163 102.468 7.0548 100.112 9.40421C97.9763 11.5335 96.582 14.2749 96.0198 17.4498C95.8566 18.3718 95.8828 21.0088 96.0653 22.0175C96.7805 25.9709 99.1917 29.3641 102.791 31.4825C104.632 32.5659 106.389 33.0842 108.954 33.3006C110.533 33.4338 112.926 33.3603 114.183 33.14C116.234 32.7804 119.264 31.9137 120.293 31.3924L120.691 31.1906V27.7692C120.691 25.8875 120.715 23.2505 120.745 21.9094L120.798 19.4709H111.475V23.1089H116.73V28.6708L115.052 29.0828C112.695 29.6616 111.656 29.8257 110.343 29.8263C108.21 29.8274 106.47 29.2841 104.523 28.0081C102.234 26.5088 100.724 24.1893 100.227 21.4112C100.069 20.5275 100.091 18.4697 100.268 17.574C101.136 13.1824 104.065 10.0758 108.12 9.24527C109.689 8.92383 111.389 8.92521 113.294 9.24963C115.145 9.56476 116.432 10.008 118.824 11.155C119.553 11.5046 120.162 11.7907 120.178 11.7907C120.193 11.7907 120.206 10.8691 120.206 9.74262V7.69452L119.499 7.36039C118.244 6.76788 115.703 6.02032 113.658 5.64237C112.751 5.4747 110.189 5.36645 109.211 5.45449ZM59.5553 5.78708C59.3486 6.14376 58.6455 7.77568 57.3394 10.9301C56.6977 12.48 55.697 14.8447 55.1155 16.185C52.4752 22.2721 51.9129 23.5841 51.2305 25.251C50.8299 26.2294 50.0833 28.0121 49.5713 29.2126C48.5564 31.5919 48.0932 32.76 48.0932 32.9398C48.0932 33.0377 48.4109 33.0522 50.16 33.0339L52.2269 33.0123L56.6046 22.5241C59.0124 16.7556 61.0088 12.0626 61.0412 12.0952C61.0735 12.1278 63.2067 16.8475 65.7817 22.5834L70.4634 33.0123L72.5367 33.0339C73.677 33.0458 74.61 33.038 74.61 33.0166C74.61 32.9652 62.5589 5.69654 62.5175 5.65425C62.4998 5.63631 61.8574 5.60478 61.0898 5.58432L59.6943 5.54714L59.5553 5.78708ZM77.3587 33.0527H93.6084V29.3339H81.401V5.72742H77.3587V33.0527ZM158.93 33.0527H162.965L163.03 32.7496C163.065 32.5829 163.093 29.9271 163.092 26.8479L163.09 21.2495H164.071C164.611 21.2495 165.249 21.2864 165.488 21.3315C166.551 21.532 167.786 22.3743 168.915 23.6701C169.878 24.7749 170.783 26.0841 172.632 29.0481C173.549 30.517 174.507 32.0098 174.761 32.3656L175.223 33.0123L177.587 33.0337C178.886 33.0455 179.95 33.0341 179.95 33.0083C179.95 32.9479 178.937 31.4423 177.718 29.6907C177.189 28.9311 176.52 27.918 176.231 27.4395C174.17 24.028 172.461 21.6717 171.566 21.0075C171.032 20.6122 170.572 20.195 170.572 20.1073C170.572 20.0746 170.981 19.7934 171.482 19.4825C171.982 19.1716 172.546 18.7838 172.736 18.6209C173.463 17.9958 174.251 16.6149 174.629 15.306C174.79 14.7455 174.815 14.4802 174.814 13.2863C174.814 11.4581 174.583 10.5957 173.766 9.36645C172.687 7.74359 170.878 6.4901 168.834 5.94836C168.218 5.78522 167.966 5.77568 163.559 5.74795L158.93 5.71893V33.0527ZM182.779 32.9688L182.961 33.0141C183.229 33.0805 183.615 33.0894 185.387 33.0701L186.983 33.0527V5.72742H182.779V32.9688ZM190.395 7.45902C190.408 8.41136 190.45 9.22085 190.487 9.2578C190.524 9.29475 192.606 9.33606 195.115 9.34956L199.676 9.37405V33.0527H203.718V9.3654H213.177V5.72742H190.37L190.395 7.45902ZM216.572 17.3488C216.573 30.5008 216.609 32.937 216.807 33.0151C217.048 33.1099 218.711 33.1556 219.745 33.096L220.776 33.0365V21.2495H235.732V33.0527H239.775V5.72742H235.732V17.5307H220.776V5.72742H216.572L216.572 17.3488ZM245.434 33.0527H249.473L249.535 32.8304C249.569 32.7082 249.597 28.0241 249.597 22.4216V12.2351L249.965 12.6798C250.167 12.9245 252.016 15.2256 254.075 17.7934L257.817 22.4621H258.138C258.414 22.4621 258.522 22.4032 258.902 22.0431C259.146 21.8126 259.915 20.8759 260.61 19.9614C262.195 17.879 264.942 14.3903 265.962 13.1651L266.736 12.2354L266.777 33.0527H270.819V5.72742H267.104L266.516 6.4348C266.192 6.82391 264.765 8.61557 263.345 10.4164C261.204 13.1303 259.369 15.4087 258.487 16.4473C258.396 16.5541 258.287 16.6389 258.244 16.636C258.202 16.633 256.184 14.1797 253.761 11.1844L249.355 5.73825L245.434 5.72742V33.0527ZM38.5735 7.93042C38.5939 7.98604 37.2325 10.0687 35.5481 12.5587C33.8637 15.0487 32.4582 17.1308 32.4249 17.1855C32.378 17.2626 32.2557 17.2648 31.8816 17.1956C31.4217 17.1106 30.9752 17.1692 30.3883 17.3917C30.304 17.4236 29.7867 16.8816 28.6894 15.6113L27.1117 13.785L27.2995 13.4056C27.4027 13.1968 27.5082 12.8235 27.5337 12.5758L27.5802 12.1254L32.9254 9.98596C35.8653 8.80928 38.3304 7.84262 38.4034 7.83793C38.4765 7.83325 38.553 7.87488 38.5735 7.93042ZM36.8071 18.8254C35.3635 24.3605 34.1459 29.0257 34.1012 29.1924C34.0424 29.4121 33.9764 29.4956 33.8615 29.4956C33.7743 29.4956 33.7027 29.4683 33.7024 29.435C33.7021 29.4016 33.3929 27.6651 33.0153 25.576C32.6376 23.487 32.3286 21.7326 32.3286 21.6774C32.3286 21.6222 32.4287 21.525 32.5509 21.4614C32.8963 21.2818 33.3524 20.7843 33.5426 20.3796C33.8439 19.7386 33.7626 18.7271 33.3641 18.159L33.2094 17.9384L36.3059 13.3391C38.009 10.8094 39.4091 8.7446 39.4171 8.75058C39.4252 8.75657 38.2506 13.2902 36.8071 18.8254ZM141.63 9.17477C145.29 9.79889 148.547 12.4822 149.795 15.9016C150.533 17.9217 150.575 20.3471 149.909 22.3445C149.406 23.8511 148.566 25.2197 147.458 26.3391C146.518 27.2893 145.826 27.7855 144.581 28.4042C142.782 29.2977 141.306 29.6193 139.326 29.5493C137.575 29.4873 136.243 29.1531 134.735 28.3968C133.666 27.8611 132.883 27.2952 132.005 26.4235C128.861 23.3042 128.09 18.7284 130.05 14.8224C131.017 12.8956 132.751 11.1844 134.758 10.1754C136.888 9.10476 139.224 8.76465 141.63 9.17477ZM165.985 9.28504C168.316 9.47826 169.607 10.108 170.232 11.3581C171.045 12.9816 170.756 14.9403 169.506 16.2792C168.608 17.2421 167.495 17.5286 164.206 17.6433L163.054 17.6835V9.20371L164.044 9.20501C164.589 9.20574 165.462 9.24171 165.985 9.28504ZM23.7779 14.092C24.3535 14.5849 24.9516 14.6934 26.1495 14.5229C26.2787 14.5044 26.6356 14.867 27.7178 16.1159C28.4883 17.0052 29.2094 17.8311 29.3203 17.9512C29.5039 18.1502 29.5128 18.1916 29.4198 18.4161C29.3636 18.5516 29.2968 18.6625 29.271 18.6625C29.1943 18.6625 17.1927 16.9643 16.9076 16.9131C16.7015 16.8761 16.6448 16.826 16.6448 16.681C16.6448 16.5129 16.949 16.3739 19.9796 15.1577C21.8138 14.4216 23.345 13.8176 23.3824 13.8156C23.4199 13.8135 23.5977 13.9379 23.7779 14.092ZM8.39095 16.7613C10.848 17.1074 12.0838 17.3134 12.1288 17.3843C12.1657 17.4426 12.1964 17.5495 12.1972 17.6219C12.2013 18.0651 12.8075 18.8809 13.3313 19.1481L13.6264 19.2986L12.4682 27.4035C11.3896 34.9521 11.272 35.6427 11.0666 35.6359C11.0162 35.6343 3.10342 17.5704 3.10342 17.457C3.10342 17.4117 3.27772 17.264 3.49075 17.1289C3.70749 16.9914 3.97452 16.7264 4.09708 16.5271C4.27979 16.23 4.34955 16.177 4.5182 16.2076C4.62936 16.2278 6.37211 16.4769 8.39095 16.7613ZM22.9058 18.8235C26.3239 19.3123 29.1414 19.7331 29.1669 19.7586C29.1925 19.7841 29.2586 19.9572 29.3138 20.1432L29.4143 20.4815L28.911 20.9763C28.6342 21.2485 25.2062 24.5008 21.2934 28.2037C17.3805 31.9065 13.9597 35.1492 13.6915 35.4095L13.2039 35.8829L12.8862 35.7209C12.7114 35.6318 12.5211 35.5589 12.4633 35.5589C12.3872 35.5589 12.3714 35.4751 12.4059 35.2557C12.4323 35.089 12.9518 31.4636 13.5605 27.1993L14.6674 19.446L15.0873 19.3091C15.3182 19.2338 15.5721 19.123 15.6516 19.0629C16.0252 18.7799 16.2684 18.5159 16.4113 18.238C16.4971 18.0713 16.5951 17.9349 16.6291 17.9349C16.6632 17.9349 19.4877 18.3347 22.9058 18.8235ZM30.8043 21.5944C31.1787 21.7234 31.2681 21.7901 31.3014 21.9654C31.3238 22.083 31.6453 23.868 32.0158 25.9322C32.5653 28.9934 32.6684 29.6922 32.5756 29.7232C32.3549 29.7967 31.7471 30.4219 31.5821 30.745C31.388 31.1251 31.298 32.0354 31.4199 32.3852L31.5021 32.6209L22.881 34.9826C18.1394 36.2814 14.2219 37.3426 14.1756 37.3408C14.1292 37.339 14.0515 37.1888 14.0031 37.0071L13.9149 36.6769L22.0061 29.0011C27.9098 23.4007 30.1312 21.3406 30.2226 21.3813C30.2915 21.4121 30.5533 21.508 30.8043 21.5944ZM50.1951 38.2268H72.3464V35.9631H50.1951V38.2268Z" fill="#00D4FF"></path>
+      </svg>
+    </div>
+  </div>
+</div>
 
-  <!-- TOP BAR -->
-  <div class="top-bar">
-    <div class="logo">Algorithm<span class="logo-dot">.</span></div>
-    <div class="top-badge">Client Portal</div>
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-label" id="heroLabel">Algorithm</div>
+    <h1 id="heroHeading">What can we<br><span class="highlight">fix for you today?</span></h1>
+    <p id="heroSubtitle">Tell us what you need and we'll take it from there. You'll get a confirmation with exactly what to expect and when.</p>
   </div>
 
-  <!-- WELCOME — personalised or default, set by JS -->
-  <div class="welcome" id="welcomeBlock">
-    <div class="welcome-greeting" id="welcomeGreeting">Algorithm Agency</div>
-    <h1 id="welcomeHeading">What do you<br>need from <em>us?</em></h1>
-    <p id="welcomeSubtitle">Tell us what you need and we'll take it from there. You'll get a confirmation with exactly what to expect and when.</p>
-  </div>
-
-  <!-- DETAILS CARD — hidden when URL pre-fills client -->
-  <div class="details-card" id="detailsCard">
-    <div class="card-eyebrow">About you</div>
+  <!-- CLIENT DETAILS (hidden when pre-filled) -->
+  <div class="card" id="detailsCard">
+    <div class="card-label">About you</div>
     <div class="row2">
       <div class="field" id="f-name">
-        <label>Your name <span style="color:var(--gold)">*</span></label>
+        <label>Your name <span class="req">*</span></label>
         <input type="text" id="cName" placeholder="Jane Smith" autocomplete="name" oninput="clearErr('f-name','cName')"/>
         <span class="field-error" id="err-name">⚠ Please enter your name</span>
       </div>
       <div class="field" id="f-company">
-        <label>Your company <span style="color:var(--gold)">*</span></label>
+        <label>Your company <span class="req">*</span></label>
         <input type="text" id="cCompany" placeholder="Your Company Name" oninput="clearErr('f-company','cCompany')"/>
         <span class="field-error" id="err-company">⚠ Please enter your company</span>
       </div>
     </div>
     <div class="row2">
       <div class="field" id="f-email">
-        <label>Email address <span style="color:var(--gold)">*</span></label>
+        <label>Email address <span class="req">*</span></label>
         <input type="email" id="cEmail" placeholder="you@company.com" autocomplete="email" oninput="clearErr('f-email','cEmail')"/>
         <span class="field-error" id="err-email">⚠ Please enter a valid email</span>
       </div>
       <div class="field">
-        <label>Website <span style="font-weight:300;font-style:italic;color:var(--ink3);font-size:.7rem">optional</span></label>
+        <label>Website <span style="font-weight:300;font-style:italic;color:var(--text-dim);font-size:.72rem">optional</span></label>
         <input type="url" id="cSite" placeholder="https://yoursite.com"/>
       </div>
     </div>
   </div>
 
   <!-- TASKS -->
-  <div class="tasks-section">
-    <div id="tasksWrap"></div>
-    <button type="button" class="btn-add-task" onclick="addTask()">
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      Add another task
-    </button>
-  </div>
+  <div id="tasksWrap"></div>
+  <button type="button" class="btn-add" onclick="addTask()">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    Add another task
+  </button>
 
   <!-- SUBMIT -->
   <div class="submit-bar">
-    <div class="submit-copy">
+    <div class="submit-text">
       <strong>Ready to send?</strong>
       <p>We'll confirm receipt and send your turnaround times by email.</p>
     </div>
@@ -675,22 +636,15 @@ body::before {
 
 <!-- OVERLAY -->
 <div class="overlay" id="overlay">
-  <div>
+  <div class="spinner-box">
     <div class="spinner"></div>
     <p>Sending your request…</p>
   </div>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   CONFIG — replace YOUR_FORM_ID with Formspree ID
-═══════════════════════════════════════════════ */
 const FORMSPREE_ID = 'YOUR_FORM_ID';
 
-/* ═══════════════════════════════════════════════
-   URGENCY MAP — client sees plain English,
-   you see P-tier in your email
-═══════════════════════════════════════════════ */
 const UMAP = {
   urgent: {
     tier:     'P1 — Critical',
@@ -715,10 +669,62 @@ const UMAP = {
   },
 };
 
-/* ═══════════════════════════════════════════════
-   URL PARAMETER PRE-FILL
-   Usage: index.html?name=Jane&company=YourCompany&email=you@company.com&site=yoursite.com
-═══════════════════════════════════════════════ */
+// ══════════════════════════════════════════════════════════
+// CLIENT ROUTING — Auto-assigns submissions to team members
+// ══════════════════════════════════════════════════════════
+const CLIENT_ROUTING = {
+  // Zanthe's clients
+  'subaru':       'zanthe@algorithm.agency',
+  'environ':      'zanthe@algorithm.agency',
+  'timbercity':   'zanthe@algorithm.agency',
+  'buyco':        'zanthe@algorithm.agency',
+  
+  // Jemima's clients
+  'unispan':      'jemima@algorithm.agency',
+  'uni-span':     'jemima@algorithm.agency',
+  'goscor':       'jemima@algorithm.agency',
+  'servest':      'jemima@algorithm.agency',
+  'thanda':       'jemima@algorithm.agency',
+  
+  // Sarah's clients
+  'winklmayr':    'sarah@algorithm.agency',
+  
+  // Daniel's clients
+  'solugrowth':   'daniel@algorithm.agency',
+  
+  // Siza's clients
+  'm7group':      'sizakele@algorithm.agency',
+  'm7':           'sizakele@algorithm.agency',
+};
+
+// Default fallback email if no match found
+const DEFAULT_EMAIL = 'YOUR_FORM_ID'; // Falls back to Formspree default
+
+// Function to determine which team member should receive this submission
+function getAssignedEmail(companyName) {
+  if (!companyName) return DEFAULT_EMAIL;
+  
+  // Normalize company name: lowercase, remove spaces/punctuation
+  const normalized = companyName.toLowerCase()
+    .replace(/[^a-z0-9]/g, '')
+    .trim();
+  
+  // Check for exact matches
+  if (CLIENT_ROUTING[normalized]) {
+    return CLIENT_ROUTING[normalized];
+  }
+  
+  // Check for partial matches (e.g. "Subaru South Africa" matches "subaru")
+  for (const [key, email] of Object.entries(CLIENT_ROUTING)) {
+    if (normalized.includes(key) || key.includes(normalized)) {
+      return email;
+    }
+  }
+  
+  // No match found - use default
+  return DEFAULT_EMAIL;
+}
+
 let prefilled = false;
 let preClient = {};
 
@@ -730,24 +736,19 @@ let preClient = {};
   const site    = p.get('site')    || '';
 
   if (name || company || email) {
-    // Hide the details card — we already know who they are
     document.getElementById('detailsCard').style.display = 'none';
     prefilled = true;
     preClient = { name, company, email, site };
 
-    // Personalise the welcome message
     const firstName = name.split(' ')[0];
-    document.getElementById('welcomeGreeting').textContent = company || 'Algorithm Agency';
-    document.getElementById('welcomeHeading').innerHTML =
-      `Hi ${firstName}, what<br>do you need <em>today?</em>`;
-    document.getElementById('welcomeSubtitle').textContent =
+    document.getElementById('heroLabel').textContent = company || 'Algorithm';
+    document.getElementById('heroHeading').innerHTML =
+      `Hi ${firstName},<br>what can we <span class="highlight">help you with?</span>`;
+    document.getElementById('heroSubtitle').textContent =
       `Just describe what you need — we'll handle the rest and confirm exactly when to expect it.`;
   }
 })();
 
-/* ═══════════════════════════════════════════════
-   TASK BUILDER
-═══════════════════════════════════════════════ */
 let taskCount = 0;
 
 function addTask() {
@@ -762,21 +763,21 @@ function addTask() {
   const isFirst = wrap.children.length === 0;
 
   div.innerHTML = `
-    <div class="card-stripe"></div>
-    <div class="card-head">
-      <div class="card-head-left">
-        <span class="task-label">${isFirst ? 'Your request' : `Task #${id}`}</span>
-        <span class="urg-pill" id="pill-${id}"></span>
+    <div class="task-stripe"></div>
+    <div class="task-header">
+      <div class="task-header-left">
+        <span class="task-num">${isFirst ? 'Your request' : `Task #${id}`}</span>
+        <span class="task-pill" id="pill-${id}"></span>
       </div>
       ${!isFirst ? `<button type="button" class="btn-remove" onclick="removeTask(${id})">
-        <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1 1l9 9M10 1l-9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 1l8 8M9 1l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         Remove
       </button>` : ''}
     </div>
-    <div class="card-body">
+    <div class="task-body">
 
       <div class="micro-q" id="mq-what-${id}">
-        <label>What do you need? <span style="color:var(--gold)">*</span></label>
+        <label>What do you need? <span style="color:var(--cyan)">*</span></label>
         <input
           type="text"
           class="q-what"
@@ -813,33 +814,33 @@ function addTask() {
         ></textarea>
       </div>
 
-      <div class="file-upload-wrap" id="file-wrap-${id}">
+      <div class="file-upload" id="file-wrap-${id}" onclick="document.getElementById('file-${id}').click()">
         <label class="file-upload-label">
           Attach files
           <span class="opt">images, PDFs, documents</span>
         </label>
-        <div class="file-input-custom" onclick="document.getElementById('file-${id}').click()">
+        <div class="file-input-area">
           <div class="file-btn">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
             Choose files
           </div>
-          <span class="file-name-display" id="file-display-${id}">No files selected</span>
+          <span class="file-name" id="file-display-${id}">No files selected</span>
         </div>
         <input
           type="file"
           id="file-${id}"
-          class="file-input-hidden q-files"
+          class="file-hidden q-files"
           multiple
           accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip"
           onchange="updateFileDisplay(${id})"
         />
-        <div class="file-hint">Images, PDFs, documents — Files will be listed in the email (file upload requires Formspree paid plan)</div>
+        <div class="file-hint">Files will be listed in the email (file upload requires Formspree paid plan)</div>
       </div>
 
-      <div class="card-divider"></div>
+      <div class="task-divider"></div>
 
       <div>
-        <div class="urg-label">How urgent is this? <span class="urg-req">*</span></div>
+        <div class="urg-label">How urgent is this? <span class="req" style="color:var(--cyan)">*</span></div>
         <div class="urg-grid">
           <button type="button" class="urg-btn" onclick="setUrg(${id},'urgent',this)">
             <span class="urg-icon">🚨</span>
@@ -857,7 +858,7 @@ function addTask() {
             <span class="urg-sub">Improvement or idea, whenever there's bandwidth</span>
           </button>
         </div>
-        <div class="eta-reveal" id="eta-${id}"></div>
+        <div class="eta-box" id="eta-${id}"></div>
         <div class="urg-err" id="uerr-${id}">⚠ Please select how urgent this is</div>
       </div>
 
@@ -872,7 +873,6 @@ function addTask() {
 function removeTask(id) {
   const el = document.getElementById(`tc-${id}`);
   if (!el) return;
-  el.style.transition = 'opacity .18s, transform .18s';
   el.style.opacity = '0';
   el.style.transform = 'translateY(-8px)';
   setTimeout(() => el.remove(), 200);
@@ -881,22 +881,17 @@ function removeTask(id) {
 function setUrg(id, urg, btn) {
   const card = document.getElementById(`tc-${id}`);
   card.dataset.urg = urg;
-
-  // Update button states
   card.querySelectorAll('.urg-btn').forEach(b => delete b.dataset.sel);
   btn.dataset.sel = urg;
 
-  // Update pill in header
   const pill = document.getElementById(`pill-${id}`);
   const u = UMAP[urg];
   pill.textContent = u.pillText;
 
-  // Show live ETA feedback
   const eta = document.getElementById(`eta-${id}`);
   eta.innerHTML = u.etaMsg;
-  eta.className = `eta-reveal show ${urg}`;
+  eta.className = `eta-box show ${urg}`;
 
-  // Clear urgency error if shown
   const uerr = document.getElementById(`uerr-${id}`);
   if (uerr) uerr.classList.remove('show');
 }
@@ -912,16 +907,13 @@ function updateFileDisplay(id) {
     } else {
       display.textContent = `${input.files.length} files selected`;
     }
-    display.classList.add('has-file');
+    display.classList.add('selected');
   } else {
     display.textContent = 'No files selected';
-    display.classList.remove('has-file');
+    display.classList.remove('selected');
   }
 }
 
-/* ═══════════════════════════════════════════════
-   INLINE ERROR HELPERS
-═══════════════════════════════════════════════ */
 function clearErr(fieldId, inputId) {
   document.getElementById(fieldId)?.querySelector('.field-error')?.classList.remove('show');
   document.getElementById(inputId)?.classList.remove('err');
@@ -941,9 +933,6 @@ function showMicroErr(mqId, inputId, errId) {
   document.getElementById(inputId)?.focus();
 }
 
-/* ═══════════════════════════════════════════════
-   COLLECT
-═══════════════════════════════════════════════ */
 function collectTasks() {
   return Array.from(document.querySelectorAll('.task-card')).map((card, i) => {
     const fileInput = card.querySelector('.q-files');
@@ -963,22 +952,22 @@ function collectTasks() {
   });
 }
 
-/* ═══════════════════════════════════════════════
-   BUILD YOUR EMAIL — full detail with P-tiers
-═══════════════════════════════════════════════ */
 function buildAgencyEmail(client, tasks) {
   const now = new Date().toLocaleString('en-ZA', { dateStyle: 'full', timeStyle: 'short' });
   const hasCritical = tasks.some(t => t.urg === 'urgent');
+  const assignedEmail = getAssignedEmail(client.company);
+  const assignedName = assignedEmail.split('@')[0].charAt(0).toUpperCase() + assignedEmail.split('@')[0].slice(1);
 
   let s = '';
   s += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  s += `  NEW BRIEF — Algorithm Agency\n`;
+  s += `  NEW BRIEF — Algorithm\n`;
   s += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   s += `  Client     ${client.name}\n`;
   s += `  Company    ${client.company}\n`;
   s += `  Email      ${client.email}\n`;
   if (client.site) s += `  Website    ${client.site}\n`;
   s += `  Received   ${now}\n`;
+  s += `  Assigned   ${assignedName}\n`;
   s += `  Tasks      ${tasks.length}`;
   if (hasCritical) s += `  ⚠ CONTAINS URGENT ITEM`;
   s += `\n\n`;
@@ -1005,9 +994,6 @@ function buildAgencyEmail(client, tasks) {
   return s;
 }
 
-/* ═══════════════════════════════════════════════
-   BUILD CLIENT CONFIRMATION — plain English only
-═══════════════════════════════════════════════ */
 function buildClientEmail(client, tasks) {
   const firstName = client.name.split(' ')[0];
   const ord = { urgent: 0, normal: 1, planned: 2 };
@@ -1037,17 +1023,13 @@ function buildClientEmail(client, tasks) {
     s += `• No rush — we'll confirm a schedule within a few days.\n`;
 
   s += `\nIf urgency changes on anything, just reply to this email.\n\n`;
-  s += `Talk soon,\nAshlin\nAlgorithm Agency\n`;
+  s += `Talk soon,\nAshlin\nAlgorithm\n`;
   return s;
 }
 
-/* ═══════════════════════════════════════════════
-   SUBMIT
-═══════════════════════════════════════════════ */
 async function handleSubmit() {
   let hasError = false;
 
-  // Validate client details (only if not pre-filled)
   let client = { ...preClient };
 
   if (!prefilled) {
@@ -1072,7 +1054,6 @@ async function handleSubmit() {
     client = { name, company, email, site };
   }
 
-  // Validate tasks
   const tasks = collectTasks();
   if (!tasks.length) {
     alert('Please add at least one task.');
@@ -1093,13 +1074,15 @@ async function handleSubmit() {
     }
   }
 
-  // Build subject
   const hasUrgent = tasks.some(t => t.urg === 'urgent');
   const subject = hasUrgent
     ? `🚨 URGENT — ${client.company} (${tasks.length} task${tasks.length > 1 ? 's' : ''})`
     : `New Brief — ${client.company} (${tasks.length} task${tasks.length > 1 ? 's' : ''})`;
 
-  // Save to sessionStorage for thank-you page
+  // Determine which team member should receive this
+  const assignedEmail = getAssignedEmail(client.company);
+  const assignedName = assignedEmail.split('@')[0].charAt(0).toUpperCase() + assignedEmail.split('@')[0].slice(1);
+
   sessionStorage.setItem('__brief', JSON.stringify({
     name: client.name,
     tasks: tasks.map(t => ({ what: t.what, urg: t.urg })),
@@ -1108,10 +1091,12 @@ async function handleSubmit() {
   const payload = {
     _subject:             subject,
     _replyto:             client.email,
+    _cc:                  assignedEmail, // CC the assigned team member
     client_name:          client.name,
     client_company:       client.company,
     client_email:         client.email,
     client_website:       client.site || '—',
+    assigned_to:          assignedName, // Track who this is assigned to
     full_brief:           buildAgencyEmail(client, tasks),
     client_confirmation:  buildClientEmail(client, tasks),
     _gotcha:              '',
@@ -1139,7 +1124,6 @@ async function handleSubmit() {
   }
 }
 
-// Kick off with one task on load
 addTask();
 </script>
 
